@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>STATIC FOLDER: ${message}</title>
+    <link rel="stylesheet" href="${request.static_url('cobra:static/testingcss.css')}"/>
+</head>
+<body>
+<h1>Hi ${message}</h1>
+<h2>STATIC FOLDER: ${message}</h2>
+</body>
+</html>

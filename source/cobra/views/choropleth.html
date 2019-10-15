@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Q6 Choropleth Map of State Data</title>
+        <script type="text/javascript" src="${request.static_url('cobra:lib/d3.v5.min.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('cobra:lib/topojson.v2.min.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('cobra:lib/d3-scale-chromatic.v1.min.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('cobra:lib/d3-tip.min.js')}"></script>
+		<link rel="stylesheet" href="${request.static_url('cobra:static/choropleth.css')}">
+	</head>
+
+	<body>
+        <div id="choropleth"></div>
+        <div id="legend"></div>
+        <!-- <svg width="960" height="600"></svg> -->
+				<script type="text/javascript" src="${request.static_url('cobra:js/choropleth.js')}"></script>
+    </body>
+</html>

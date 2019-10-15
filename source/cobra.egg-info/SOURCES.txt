@@ -1,0 +1,7 @@
+setup.py
+cobra.egg-info/PKG-INFO
+cobra.egg-info/SOURCES.txt
+cobra.egg-info/dependency_links.txt
+cobra.egg-info/entry_points.txt
+cobra.egg-info/requires.txt
+cobra.egg-info/top_level.txt
