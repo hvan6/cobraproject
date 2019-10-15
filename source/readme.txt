@@ -15,7 +15,16 @@ Do not turn off the cmd windows
 4/ Open any browser and navigate to home page:
 http://localhost:6543/
 
-5/ If you see a blank page with a string "Test Jason", it worked.
+5/ If you see a blank page with a string "Test Jason", 
+press F12, click on Console tab.
+If you can see 4 line of log:
+
+Json number 2
+Hello View Json
+Object 1 : name Hello View Json
+Object 2 : Json number 2
+
+=> it worked.
 
 6/ Short explain:
 __init_.py:
