@@ -4,6 +4,7 @@ from pyramid.view import (
     )
 from pyramid.httpexceptions import HTTPFound
 from pyramid.response import Response
+import json,os
 
 # if using jinja2
 @view_defaults(renderer='views\\home.jinja2')
@@ -21,10 +22,17 @@ class CobraViews:
         return {'name': 'Home View'}
 
     # Return string for 2 ajax call from home jinja2
-    @view_config(route_name='test')
-    @view_config(route_name='test_json', renderer='json')
-    def test(self):
-        return {'name': 'Hello View Json'}
+    @view_config(route_name='getLAmap', renderer='json')
+    def getLAmap(self):
+        #print(os.getcwd())
+        try:
+            with open('cobra\\static\\la.json') as json_file:
+                print("test")
+                laMap = json.load(json_file)
+                print(str(laMap))
+                return laMap
+        except Exception as e:
+            return {'failure' : str(e)}
 
     @view_config(route_name='test_json2', renderer='json')
     def test_json2(self):
@@ -32,7 +40,7 @@ class CobraViews:
 
 
     ###### OTHER TESTING ###################################################
-    # Do not need to read at beginning
+    # No need to read at beginning
     ########################################################################
     # routing test
     # try sending below request in any browser

@@ -11,8 +11,7 @@ def main(global_config, **settings):
     # define home page
     config.add_route('home', '/')
     # set routing for ajax calling from home.jinja2
-    config.add_route('test', '/test')
-    config.add_route('test_json', '/testjson')
+    config.add_route('getLAmap', '/getLAmap')
     config.add_route('test_json2', '/testjson2')
 
 

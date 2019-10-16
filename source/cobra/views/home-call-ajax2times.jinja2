@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Test Jason</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function(){
+        var obj1,obj2;
+        function callAjax1() {
+          $.ajax({
+            url: "http://localhost:6543/testjson",
+            //type: 'POST',
+            //data: { key: 'value', },
+            success: function(result){
+              console.log(result.name);
+              obj1 = result;
+              console.log(obj1);
+              console.log(obj2);
+            },
+            error: function(error) {
+              console.log(error);
+            },
+          });
+        }
+
+        function callAjax2() {
+          $.ajax({
+            url: "http://localhost:6543/testjson2",
+            //type: 'POST',
+            //data: { key: 'value', },
+            success: function(result){
+              console.log(result.name);
+              obj2 = result;
+              callAjax1();
+            },
+            error: function(error) {
+              console.log(error);
+            },
+          });
+        }
+
+        callAjax2();
+      });
+    </script>
+</head>
+  <body>
+    <div id="div1"><h2>Test Jason</h2></div>
+  </body>
+</html>

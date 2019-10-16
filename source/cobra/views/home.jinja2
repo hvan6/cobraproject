@@ -1,49 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Test Jason</title>
+    <title>COBRA home</title>
+    <script type="text/javascript" src="{{request.static_url('cobra:lib/d3.v5.min.js')}}"></script>
+    <script type="text/javascript" src="{{request.static_url('cobra:lib/topojson.v2.min.js')}}"></script>
+    <script type="text/javascript" src="{{request.static_url('cobra:lib/d3-tip.min.js')}}"></script>
+    <script type="text/javascript" src="{{request.static_url('cobra:lib/d3-scale-chromatic.v1.min.js')}}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script>
-      $(document).ready(function(){
-        var obj1,obj2;
-        function callAjax1() {
-          $.ajax({
-            url: "http://localhost:6543/testjson",
-            //type: 'POST',
-            //data: { key: 'value', },
-            success: function(result){
-              console.log(result.name);
-              obj1 = result;
-              console.log(obj1);
-              console.log(obj2);
-            },
-            error: function(error) {
-              console.log(error);
-            },
-          });
-        }
-
-        function callAjax2() {
-          $.ajax({
-            url: "http://localhost:6543/testjson2",
-            //type: 'POST',
-            //data: { key: 'value', },
-            success: function(result){
-              console.log(result.name);
-              obj2 = result;
-              callAjax1();
-            },
-            error: function(error) {
-              console.log(error);
-            },
-          });
-        }
-
-        callAjax2();
-      });
-    </script>
+    <style>
+      body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
+      path {
+        stroke: gray;
+        fill: none;
+      }
+    </style>
 </head>
   <body>
-    <div id="div1"><h2>Test Jason</h2></div>
+    <div id="div1"><h4>LA map</h4></div>
+    <div id="svgLA"></div>
+    <script>
+      function getLAmap() {
+        $.ajax({
+          url: "http://localhost:6543/getLAmap",
+          //type: 'POST',
+          //data: { key: 'value', },
+          success: function(laMap){
+            console.log(laMap);
+            drawLA(laMap);
+          },
+          error: function(error) {
+            alert("Failed");
+            console.log(error);
+          },
+        });
+      }
+
+      function drawLA(la) {
+        const width = 800;
+        const height = 800;
+        const svg = d3.select('#svgLA').append('svg')
+          .attr('height', width)
+          .attr('width', height);
+
+        // Create a unit projection.
+        const laProjection = d3.geoAlbers()
+                                .scale(1)
+                                .translate([0, 0]);
+
+        // Create a path generator
+        const path = d3.geoPath().projection(laProjection);
+
+        // Compute the bounds of a feature of interest,
+        // then derive scale & translate.
+        const laBounds = path.bounds(la);
+        const laScale = 0.8 / Math.max(
+                  (laBounds[1][0] - laBounds[0][0]) / width,
+                  (laBounds[1][1] - laBounds[0][1]) / height
+                );
+        const laTranslate = [
+          (width - laScale * (laBounds[1][0] + laBounds[0][0])) / 2,
+          (height - laScale * (laBounds[1][1] + laBounds[0][1])) / 2
+        ];
+
+        // Update the projection to use computed scale & translate.
+        console.log(laBounds);
+        console.log(laScale, laTranslate)
+        laProjection.scale(laScale)
+                    .translate(laTranslate);
+
+        svg.append('path')
+            .datum(la)
+            .attr('d', path);
+
+      }
+
+      getLAmap();
+    </script>
   </body>
 </html>
