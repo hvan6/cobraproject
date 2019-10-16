@@ -27,9 +27,7 @@ class CobraViews:
         #print(os.getcwd())
         try:
             with open('cobra\\static\\la.json') as json_file:
-                print("test")
                 laMap = json.load(json_file)
-                print(str(laMap))
                 return laMap
         except Exception as e:
             return {'failure' : str(e)}
