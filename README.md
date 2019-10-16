@@ -9,7 +9,7 @@ If you did not want the path C:/cobraproject, you can put to another directory
 But then you need to edit the run.bat file
 Modify the first line "set VENV=C:\cobraproject\env" to the path you place your project directory
 
-# III Run
+# III Run Setting
 If first run: double click firstRun.bat
 From second run: double click run.bat
 After run, do not turn off the cmd windows
@@ -18,8 +18,11 @@ After run, do not turn off the cmd windows
 Open any browser and navigate to home page:
 http://localhost:6543/
 
+Try leaflet interaction map
+http://localhost:6543/leaflet
+
 # V Check
-If you see a LA map => it worked.
+If you see a LA JSON map => it worked.
 
 # VI Explain:
 

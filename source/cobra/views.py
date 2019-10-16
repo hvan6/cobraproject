@@ -32,9 +32,9 @@ class CobraViews:
         except Exception as e:
             return {'failure' : str(e)}
 
-    @view_config(route_name='test_json2', renderer='json')
-    def test_json2(self):
-        return {'name': 'Json number 2'}
+    @view_config(route_name='leaflet', renderer='views\\leaflet.jinja2')
+    def leaflet(self):
+        return {'name': 'leaflet'}
 
 
     ###### OTHER TESTING ###################################################
