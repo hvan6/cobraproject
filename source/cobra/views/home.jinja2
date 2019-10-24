@@ -1,85 +1,353 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>COBRA home</title>
-    <script type="text/javascript" src="{{request.static_url('cobra:lib/d3.v5.min.js')}}"></script>
-    <script type="text/javascript" src="{{request.static_url('cobra:lib/topojson.v2.min.js')}}"></script>
-    <script type="text/javascript" src="{{request.static_url('cobra:lib/d3-tip.min.js')}}"></script>
-    <script type="text/javascript" src="{{request.static_url('cobra:lib/d3-scale-chromatic.v1.min.js')}}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
-      body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
-      path {
-        stroke: gray;
-        fill: none;
+      html,
+      body {
+        font-family: Arial, sans-serif;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .container-fluid {
+        height: 100%;
+        position: relative;
+        padding-left: 0px;
+      }
+      input {
+        font-size: 12px;
+      }
+      #map {
+        bottom:0px;
+        height: 100%;
+        left: 340px;
+        position: absolute;
+        right: 0px;
+      }
+      h1 {
+        color: #525454;
+        font-size: 22px;
+        margin: 0 0 10px 0;
+        text-align: center;
+      }
+      #hide-listings,
+      #show-listings {
+        width: 48%;
+        /* margin-top: 20px; */
+      }
+      .options-box {
+        background: #fff;
+        border: 1px solid #999;
+        border-radius: 3px;
+        height: 100%;
+        line-height: 35px;
+        padding: 10px 10px 30px 10px;
+        margin: 0;
+        text-align: left;
+        width: 340px;
       }
     </style>
-</head>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.3.0/d3.min.js"></script>
+  </head>
+
   <body>
-    <div id="div1">
-      <p></p>
-      <a href="http://localhost:6543/leaflet">TRY LEAFLET MAP</a>
-      <h3>Los Angeles JSON Map</h3>
+    <div class="container-fluid">
+      <div class="options-box">
+        <h1>COBRA</h1>
+        <!-- <form method="POST" action="${request.current_route_url()}"> -->
+        <form method="POST">
+          <div class="form-group">
+            <label for="livecityinput">Where would you like to live?</label>
+            <input type="text" class="form-control" id="livecity" placeholder="Zip or city">
+          </div>
+          <div class="form-group">
+            <label for="cashinput">Total cash assets available:</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">$</div>
+              </div>
+              <input type="text" class="form-control" id="cash" placeholder="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="yearsalaryinput">Yearly Salary:</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">$</div>
+              </div>
+              <input type="text" class="form-control" id="yearsalary" placeholder="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="projectraiseinput">Project yearly raise %:</label>
+            <input type="text" class="form-control" id="projectraise" placeholder="">
+          </div>
+          <div class="form-group">
+            <label for="occupyyearinput">Number of years to occupy:</label>
+            <input type="text" class="form-control" id="occupyyear" placeholder="Number only">
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+          <div class="btn-group form-group" role="group">
+            <input id="show-listings" type="button" class="btn btn-secondary" value="Show Median">
+            <input id="hide-listings" type="button" class="btn btn-secondary" value="Hide Median">
+          </div>
+        </form>
+      </div>
+      <div id="map"></div>
     </div>
 
-    <div id="svgLA"></div>
     <script>
-      function getLAmap() {
-        $.ajax({
-          url: "http://localhost:6543/getLAmap",
-          //type: 'POST',
-          //data: { key: 'value', },
-          success: function(laMap){
-            console.log(laMap);
-            drawLA(laMap);
-          },
-          error: function(error) {
-            alert("Failed");
-            console.log(error);
-          },
-        });
-      }
+      var map;
+      var lalatlon = {lat:34.052235,lon:-118.243683};
 
-      function drawLA(la) {
-        const width = 800;
-        const height = 800;
-        const svg = d3.select('#svgLA').append('svg')
-          .attr('height', width)
-          .attr('width', height);
-
-        // Create a unit projection.
-        const laProjection = d3.geoAlbers()
-                                .scale(1)
-                                .translate([0, 0]);
-
-        // Create a path generator
-        const path = d3.geoPath().projection(laProjection);
-
-        // Compute the bounds of a feature of interest,
-        // then derive scale & translate.
-        const laBounds = path.bounds(la);
-        const laScale = 0.8 / Math.max(
-                  (laBounds[1][0] - laBounds[0][0]) / width,
-                  (laBounds[1][1] - laBounds[0][1]) / height
-                );
-        const laTranslate = [
-          (width - laScale * (laBounds[1][0] + laBounds[0][0])) / 2,
-          (height - laScale * (laBounds[1][1] + laBounds[0][1])) / 2
+      function initMap() {
+        // Create a styles array to use with the map.
+        var styles = [
+          {
+            featureType: 'water',
+            stylers: [
+              { color: '#19a0d8' }
+            ]
+          },{
+            featureType: 'administrative',
+            elementType: 'labels.text.stroke',
+            stylers: [
+              { color: '#ffffff' },
+              { weight: 6 }
+            ]
+          },{
+            featureType: 'administrative',
+            elementType: 'labels.text.fill',
+            stylers: [
+              { color: '#e85113' }
+            ]
+          },{
+            featureType: 'road.highway',
+            elementType: 'geometry.stroke',
+            stylers: [
+              { color: '#efe9e4' },
+              { lightness: -40 }
+            ]
+          },{
+            featureType: 'transit.station',
+            stylers: [
+              { weight: 9 },
+              { hue: '#e85113' }
+            ]
+          },{
+            featureType: 'road.highway',
+            elementType: 'labels.icon',
+            stylers: [
+              { visibility: 'off' }
+            ]
+          },{
+            featureType: 'water',
+            elementType: 'labels.text.stroke',
+            stylers: [
+              { lightness: 100 }
+            ]
+          },{
+            featureType: 'water',
+            elementType: 'labels.text.fill',
+            stylers: [
+              { lightness: -100 }
+            ]
+          },{
+            featureType: 'poi',
+            elementType: 'geometry',
+            stylers: [
+              { visibility: 'on' },
+              { color: '#f0e4d3' }
+            ]
+          },{
+            featureType: 'road.highway',
+            elementType: 'geometry.fill',
+            stylers: [
+              { color: '#efe9e4' },
+              { lightness: -25 }
+            ]
+          }
         ];
 
-        // Update the projection to use computed scale & translate.
-        console.log(laBounds);
-        console.log(laScale, laTranslate)
-        laProjection.scale(laScale)
-                    .translate(laTranslate);
+        // These are the real estate listings that will be shown to the user.
+        // Normally we'd have these in a database instead.
+        // define global
+        locations = [
+          {title: 'Los Angeles zip 90046', location: {lat: 34.098908, lng: -118.36241}, zhvi:1451500},
+          {title: 'Los Angeles zip 90034', location: {lat: 34.03056, lng: -118.39804}, zhvi:1254900},
+          {title: 'Los Angeles zip 90044', location: {lat: 33.953814, lng: -118.29158}, zhvi:444200},
+          {title: 'Los Angeles zip 90026', location: {lat: 34.07851, lng: -118.26596}, zhvi:950000},
+          {title: 'Los Angeles zip 90066', location: {lat: 34.002011, lng: -118.43083}, zhvi:1423900},
+          {title: 'Los Angeles zip 90019', location: {lat: 34.048411, lng: -118.34015}, zhvi:1125200}
+        ];
+        console.log("locations:");
+        console.log(locations);
 
-        svg.append('path')
-            .datum(la)
-            .attr('d', path);
+        // Constructor creates a new map - only center and zoom are required.
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: lalatlon.lat, lng: lalatlon.lon},
+          zoom: 13,
+          styles: styles,
+          mapTypeControl: false
+        });
+
+        /*
+        google.maps.event.addListener(map, 'bounds_changed', function() {
+          var bounds =  map.getBounds();
+          var ne = bounds.getNorthEast();
+          var sw = bounds.getSouthWest();
+          //do whatever you want with those bounds
+          console.log("ne=" + ne + "- sw=" + sw);
+        });
+        */
+
+
+        var largeInfowindow = new google.maps.InfoWindow();
+
+        // Style the markers a bit. This will be our listing marker icon.
+        var defaultIcon = makeMarkerIcon('0091ff');
+
+        // Create a "highlighted location" marker color for when the user
+        // mouses over the marker.
+        var highlightedIcon = makeMarkerIcon('FFFF24');
+
+        //var largeInfowindow = new google.maps.InfoWindow();
+
+        // Create a new blank array for all the listing markers.
+        markers = [];
+
+        // The following group uses the location array to create an array of markers on initialize.
+        for (var i = 0; i < locations.length; i++) {
+          // Get the position from the location array.
+          var position = locations[i].location;
+          var title = locations[i].title;
+          var zhvi = locations[i].zhvi;
+          // Create a marker per location, and put into markers array.
+
+          // var marker = new google.maps.Marker({
+          //   position: position,
+          //   title: title,
+          //   zhvi: zhvi,
+          //   animation: google.maps.Animation.DROP,
+          //   icon: defaultIcon,
+          //   id: i
+          // });
+
+          var marker = new google.maps.Circle({
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35,
+            //map: map,
+            position: position,
+            center: position,
+            radius: Math.sqrt(zhvi),
+            title: title,
+            zhvi: zhvi
+          });
+
+          // Push the marker to our array of markers.
+          markers.push(marker);
+          // Create an onclick event to open an infowindow at each marker.
+          marker.addListener('click', function() {
+            populateInfoWindow(this, largeInfowindow);
+          });
+          // Two event listeners - one for mouseover, one for mouseout,
+          // to change the colors back and forth.
+          marker.addListener('mouseover', function() {
+            //this.setIcon(highlightedIcon);
+          });
+          marker.addListener('mouseout', function() {
+            //this.setIcon(defaultIcon);
+          });
+        }
+
+        document.getElementById('show-listings').addEventListener('click', showListings);
+        document.getElementById('hide-listings').addEventListener('click', hideListings);
+
+      } // end of initMap()
+
+      // This function populates the infowindow when the marker is clicked. We'll only allow
+      // one infowindow which will open at the marker that is clicked, and populate based
+      // on that markers position.
+      function populateInfoWindow(marker, infowindow) {
+        // Check to make sure the infowindow is not already opened on this marker.
+        if (infowindow.marker != marker) {
+          infowindow.marker = marker;
+          infowindow.setContent('<div>' + marker.title + ': <br><b>$' +  marker.zhvi.toLocaleString() + '</b></div>');
+          infowindow.open(map, marker);
+          // Make sure the marker property is cleared if the infowindow is closed.
+          infowindow.addListener('closeclick', function() {
+            infowindow.marker = null;
+          });
+        }
+      }
+
+      function showmedian() {
+        var bounds = new google.maps.LatLngBounds();
+        console.log(locations);
+        for (var i = 0; i < locations.length; i++) {
+          var position = locations[i].location;
+          var zhvi = locations[i].zhvi;
+
+          var cirle = new google.maps.Circle({
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35,
+            //map: map,
+            center: position,
+            radius: Math.sqrt(zhvi),
+          });
+          cirle.setMap(map);
+        }
+      }
+
+      function hidemedian() {
 
       }
 
-      getLAmap();
+      // This function will loop through the markers array and display them all.
+      function showListings() {
+        var bounds = new google.maps.LatLngBounds();
+        // Extend the boundaries of the map for each marker and display the marker
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+          bounds.extend(markers[i].position);
+        }
+        map.fitBounds(bounds);
+      }
+      // This function will loop through the listings and hide them all.
+      function hideListings() {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(null);
+        }
+      }
+
+      // This function takes in a COLOR, and then creates a new marker
+      // icon of that color. The icon will be 21 px wide by 34 high, have an origin
+      // of 0, 0 and be anchored at 10, 34).
+      function makeMarkerIcon(markerColor) {
+        var markerImage = new google.maps.MarkerImage(
+          'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
+          '|40|_|%E2%80%A2',
+          new google.maps.Size(21, 34),
+          new google.maps.Point(0, 0),
+          new google.maps.Point(10, 34),
+          new google.maps.Size(21,34));
+        return markerImage;
+      }
+
     </script>
+
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBTWHYOjv0vSKoZCrFOgFHiEnjNMxVuXU&v=3&callback=initMap">
+    </script>
+
   </body>
 </html>

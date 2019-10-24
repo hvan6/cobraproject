@@ -36,11 +36,6 @@ class CobraViews:
     def leaflet(self):
         return {'name': 'leaflet'}
 
-    @view_config(route_name='googlemap', renderer='views\\googlemap.jinja2')
-    def googlemap(self):
-        return {'name': 'googlemap'}
-
-
     ###### OTHER TESTING ###################################################
     # No need to read at beginning
     ########################################################################
