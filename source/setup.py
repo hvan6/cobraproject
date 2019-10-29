@@ -7,6 +7,7 @@ requires = [
     'pyramid_chameleon',
     'pyramid_jinja2',
     'waitress',
+    'pandas'
 ]
 
 # List of dependencies installed via `pip install -e ".[dev]"`
