@@ -13,6 +13,7 @@ def main(global_config, **settings):
     # set routing for ajax calling from home.jinja2
     config.add_route('getLAmap', '/getLAmap')
     config.add_route('leaflet','/leaflet')
+    config.add_route('medianbyzip','/medianbyzip')
 
     ###### OTHER ROUTE DEFINITION ##########################################
     # testing URL routing with view

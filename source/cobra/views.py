@@ -5,6 +5,7 @@ from pyramid.view import (
 from pyramid.httpexceptions import HTTPFound
 from pyramid.response import Response
 import json,os
+import pandas as pd
 
 # if using jinja2
 @view_defaults(renderer='views\\home.jinja2')
@@ -35,6 +36,16 @@ class CobraViews:
     @view_config(route_name='leaflet', renderer='views\\leaflet.jinja2')
     def leaflet(self):
         return {'name': 'leaflet'}
+
+    @view_config(route_name='medianbyzip', renderer='json')
+    def medianbyzip(self):
+        print(os.getcwd())
+        try:
+            df=pd.read_csv('cobra\\static\\properties_cleaned.tsv',delimiter='\t',encoding='utf-8')
+            medianByZip = df.groupby('regionidzip')['est_cost'].median()
+            return medianByZip.to_json()
+        except Exception as e:
+            return {'failure' : str(e)}
 
     ###### OTHER TESTING ###################################################
     # No need to read at beginning
