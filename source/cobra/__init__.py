@@ -11,22 +11,25 @@ def main(global_config, **settings):
     # define home page
     config.add_route('home', '/')
     # set routing for ajax calling from home.jinja2
-    config.add_route('getLAmap', '/getLAmap')
-    config.add_route('leaflet','/leaflet')
-    config.add_route('medianbyzip','/medianbyzip')
+    config.add_route('getmedianbyzip','/getmedianbyzip')
 
     ###### OTHER ROUTE DEFINITION ##########################################
     # testing URL routing with view
-    config.add_route('routing', '/routingtest/{first}/{last}')
+    # config.add_route('routing', '/routingtest/{first}/{last}')
     # testing Static folder
-    config.add_route('staticfolder', '/staticfolder')
+    # config.add_route('staticfolder', '/staticfolder')
     # testing sending and receive request
-    config.add_route('plain', '/plain')
+    # config.add_route('plain', '/plain')
     # testing ajax with json render
-    config.add_route('hello_json', '/howdy.json')
+    # config.add_route('hello_json', '/howdy.json')
     # testing form and submit button
-    config.add_route('form', '/form')
-    config.add_route('hello', '/form/{first}/{last}')
+    # config.add_route('form', '/form')
+    # config.add_route('hello', '/form/{first}/{last}')
+
+    # config.add_route('testajax', '/testajax')
+    # config.add_route('leaflet','/leaflet')
+    # config.add_route('getLAmap', '/getLAmap')
+    # config.add_route('medianbyzip','/medianbyzip')
     ###### OTHER ROUTE DEFINITION ##########################################
 
 
