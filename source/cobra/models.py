@@ -25,8 +25,12 @@ class Connection:
         data = self.getDataByQuery(query)
         grouped = data.groupby(['zipcode','ziplat','ziplon','city'])
         agg = grouped['est_cost'].agg([np.mean, np.median]).reset_index()
-        agg = agg.to_json(orient='records')
-        return agg
+        grouped_tax = data.groupby(['zipcode'])
+        taxamount = grouped_tax['taxamount'].agg([np.mean, np.median]).reset_index()
+        taxamount = taxamount.rename(columns={'mean': 'taxmean', 'median': 'taxmedian'})
+        newdata = pd.merge(agg, taxamount, on='zipcode',how='inner')
+        newdata = newdata.to_json(orient='records')
+        return newdata
 
 
 class Criteria:

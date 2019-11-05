@@ -33,6 +33,7 @@ class CobraViews:
     # @view_config(route_name='getmedianbyzip', request_method='POST', renderer='json')
     @view_config(route_name='getmedianbyzip', renderer='json')
     def getmedianbyzip(self):
+        # return {'result': 'mediandata'}
         zipcode = self.request.POST.get('zipcode',None)
         queryHouseByCounty = self.request.POST.get('queryHouseByCounty',None)
         conn = Connection()
