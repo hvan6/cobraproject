@@ -2,15 +2,9 @@ import os
 import pandas as pd
 import numpy as np
 
-PROPERTIES_DS = 'cobra\\static\\properties_2017_cleaned10-30.csv'
-ZIPCODEGEO_DS = 'cobra\\static\\cobraZipCodeGeo.csv'
+PROPERTIES_DS = 'cobra/static/properties_2017_cleaned10-30.csv'
+ZIPCODEGEO_DS = 'cobra/static/cobraZipCodeGeo.csv'
 CHUNKSIZE = 500000
-
-def load_ds():
-    print('Wait a minutes ...')
-    df=pd.read_csv('cobra\\static\\properties_cleaned_10-29.tsv',delimiter='\t',encoding='utf-8')
-    medianByZip = df.groupby('regionidzip')['est_cost'].median()
-    return
 
 class Connection:
     def __init__(self):

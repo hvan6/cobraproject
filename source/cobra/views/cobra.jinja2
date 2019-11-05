@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{{request.static_url('cobra:static/cobra.css')}}"/>
     <script type="text/javascript" src="{{request.static_url('cobra:lib/d3.v5.min.js')}}"></script>
-    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.3.0/d3.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <!-- {% block javascript %}
         <script>
@@ -38,7 +38,7 @@
 
     <div class="container-fluid">
       <div class="options-box">
-        <h1>MAP of {{county}} COUNTY</h1>
+        <h1>MAP of <b>{{county}}</b> County</h1>
         <!-- <form method="POST" action="${request.current_route_url()}"> -->
         <!-- <form method="POST">
           <div class="form-group">

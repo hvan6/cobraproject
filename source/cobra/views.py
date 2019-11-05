@@ -12,9 +12,7 @@ from .models import (
 )
 
 # if using jinja2
-@view_defaults(renderer='views\\home.jinja2')
-# if using chameleon
-#@view_defaults(renderer='views\\home.pt')
+@view_defaults(renderer='views/home.jinja2')
 class CobraViews:
     def __init__(self, request):
         self.request = request
@@ -26,19 +24,21 @@ class CobraViews:
     def home(self):
         return {'show': 'Home View'}
 
-    @view_config(route_name='home', request_method='POST',  renderer='views\\cobra.jinja2')
+    @view_config(route_name='home', request_method='POST',  renderer='views/cobra.jinja2')
     def home_submit(self):
         criteria = Criteria(self.request.params['livecity'], self.request.params['minBedroom'], self.request.params['maxBedroom'], self.request.params['minBathroom'], self.request.params['maxBathroom'], self.request.params['minYearbuilt'], self.request.params['maxYearbuilt'], self.request.params['minLotSize'], self.request.params['maxLotSize'])
         return criteria.asdict()
 
 
-    @view_config(route_name='getmedianbyzip', request_method='POST', renderer='json')
+    # @view_config(route_name='getmedianbyzip', request_method='POST', renderer='json')
+    @view_config(route_name='getmedianbyzip', renderer='json')
     def getmedianbyzip(self):
         zipcode = self.request.POST.get('zipcode',None)
         queryHouseByCounty = self.request.POST.get('queryHouseByCounty',None)
         conn = Connection()
         mediandata = conn.getMedianData(queryHouseByCounty)
         return {'result': mediandata}
+
 
 
     ###### TESTING  AJAX ###################################################

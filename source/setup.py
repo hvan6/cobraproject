@@ -4,7 +4,6 @@ from setuptools import setup
 # by virtue of the Setuptools `install_requires` value below.
 requires = [
     'pyramid',
-    'pyramid_chameleon',
     'pyramid_jinja2',
     'waitress',
     'pandas'
