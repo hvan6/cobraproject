@@ -1,6 +1,6 @@
 # Get COBRA
-​
 **Requirement**: Python 3 is installed.
+
 ​
 These steps will get COBRA installed and running:
 ​
