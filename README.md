@@ -7,7 +7,9 @@
   <img src="https://img.shields.io/badge/keywords-Python%2C%20D3%2C%20PyramidFramework-blue" alt="Keywords">
 </p>
 <h2 align="center">COBRA</h2>
+
 COBRA is a front-end web client application framework, with core functionality that is geared in support of LA Team (Dava & Visual Analystics). COBRA is built on the [Pyramid framework](https://trypyramid.com/).
+
 ## About COBRA
 The Cost of Buying/Renting Algorithm (COBRA) to help home-seekers process the overwhelming amount of data points involved in buying or renting a home to make an optimal decision.
 
