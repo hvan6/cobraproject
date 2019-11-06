@@ -16,12 +16,13 @@ The Cost of Buying/Renting Algorithm (COBRA) to help home-seekers process the ov
 ## Try COBRA
 #### Live Demo
 COBRA is a web-based UI and is available for demo on [Amazon AWS](http://ec2-54-183-131-70.us-west-1.compute.amazonaws.com/).
+The demo application was deployed in Ubuntu Server 18.04 LTS using web server uWSGI+ nginx
 
 #### Get COBRA
 See the [Get COBRA](https://github.com/hvan6/cobraproject/blob/master/GetCobra.md) page for details.
 
 ## Operating System Support
-COBRA only works on Windows OS.
+The development version of COBRA only works on Windows OS.
 
 ## Documentation
 * [Proposal PDF](https://github.com/hvan6/cobraproject/tree/master/assets/docs/team25proposal.pdf)

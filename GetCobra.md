@@ -1,5 +1,5 @@
 # Get COBRA
-**Requirement**: Python 3 is installed.
+**Requirement**: OS Windows. Python 3 (32-bit) is installed. 
 
 ​
 These steps will get COBRA installed and running:
@@ -16,6 +16,4 @@ These steps will get COBRA installed and running:
 ​
   If it is the first time execution, double click on `firstRun.bat`, otherwise `run.bat`.
 ​
-* Open a browser and navigate to: http://localhost:8080/
-​
-* Try leaflet interaction map: http://localhost:6543/leaflet/
+* Open a browser and navigate to: http://localhost:6543/
