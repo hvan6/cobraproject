@@ -1,5 +1,21 @@
+import { csv } from '../lib.d3-dsv.min.js';
+import url from './cobraZipCodeGeo.csv';
+
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+// ZIP Validation
+function validateZip() {
+  var cityZip = document.forms["userInputForm"]["livecity"];
+  var validateZip = "";
+  csv(url, function(err, data) {
+   validateZip = data["zipcode"];
+  })
+  if (!validateZip.includes(cityZip)) {
+    alert("Zip code is not validated (90001 - 93560)");
+    return false;
+  }
 }
 
 // Bedroom slider

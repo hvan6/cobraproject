@@ -13,7 +13,7 @@
 
   <body>
     <div class="container">
-        <form name="userInputForm" class="form-home" method="POST" action="{{request.current_route_url()}}">
+        <form name="userInputForm" class="form-home" method="POST" action="{{request.current_route_url()}}" onsubmit="return validateZip()">
           <div class="div-logo">
             <img src="{{request.static_url('cobra:static/cobralogo.png')}}">
           </div>
