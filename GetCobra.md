@@ -1,7 +1,7 @@
 # Get COBRA
 **Requirement**:
 * Windows OS
-* Python 3 (32-bit).
+* Python 3 (32-bit)
 
 ​
 These steps will get COBRA installed and running:
