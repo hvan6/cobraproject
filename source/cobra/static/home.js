@@ -8,7 +8,7 @@ function numberWithCommas(x) {
 // ZIP Validation
 function validateZip() {
   var cityZip = document.forms["userInputForm"]["livecity"];
-  var validateZip = "";
+  var validateZip = [];
   csv(url, function(err, data) {
    validateZip = data["zipcode"];
   })
