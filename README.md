@@ -22,7 +22,7 @@ The demo application was deployed in Ubuntu Server 18.04 LTS using web server uW
 See the [Get COBRA](https://github.com/hvan6/cobraproject/blob/master/GetCobra.md) page for details.
 
 ## Operating System Support
-The development version of COBRA only works on Windows OS.
+The [development version](http://ec2-54-183-131-70.us-west-1.compute.amazonaws.com/) of COBRA only works on Windows OS.
 
 ## Documentation
 * [Proposal PDF](https://github.com/hvan6/cobraproject/blob/master/assets/docs/team25proposal.pdf)
