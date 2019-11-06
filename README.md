@@ -1,4 +1,4 @@
-<p align="center"><img width="300" src="https://github.com/hvan6/cobraproject/tree/master/assets/imgs/cobralogo.png" alt="COBRA logo"></p>
+<p align="center"><img width="300" src="https://github.com/hvan6/cobraproject/blob/master/assets/imgs/cobralogo.png" alt="COBRA logo"></p>
 <p align="center">
   <img src="https://img.shields.io/badge/cobra%20version-1.0.0-blue" alt="COBRA version">
   <img src="https://img.shields.io/badge/repo%20size-174MB-blue" alt="Repo size">
@@ -25,9 +25,9 @@ See the [Get COBRA](https://github.com/hvan6/cobraproject/blob/master/GetCobra.m
 The development version of COBRA only works on Windows OS.
 
 ## Documentation
-* [Proposal PDF](https://github.com/hvan6/cobraproject/tree/master/assets/docs/team25proposal.pdf)
-* [Proposal Video](https://github.com/hvan6/cobraproject/tree/master/assets/docs/team25proposal.mp4)
-* [Proposal Slides](https://github.com/hvan6/cobraproject/tree/master/assets/docs/team25slides.pdf)
+* [Proposal PDF](https://github.com/hvan6/cobraproject/blob/master/assets/docs/team25proposal.pdf)
+* [Proposal Video](https://github.com/hvan6/cobraproject/blob/master/assets/docs/team25proposal.mp4)
+* [Proposal Slides](https://github.com/hvan6/cobraproject/blob/master/assets/docs/team25slides.pdf)
 
 ## Contribution
 COBRA is developed by the LA Team (Dava & Visual Analystics).
