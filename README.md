@@ -1,59 +1,39 @@
-Requirement: install python 3
+<p align="center"><img width="300" src="https://github.com/hvan6/cobraproject/tree/master/assets/imgs/cobralogo.png" alt="COBRA logo"></p>
+<p align="center">
+  <img src="https://img.shields.io/badge/cobra%20version-1.0.0-blue" alt="COBRA version">
+  <img src="https://img.shields.io/badge/repo%20size-174MB-blue" alt="Repo size">
+  <a href="http://ec2-54-183-131-70.us-west-1.compute.amazonaws.com/"><img src="https://img.shields.io/badge/demo-live-green" alt="Demo live"></a>
+  <br>
+  <img src="https://img.shields.io/badge/keywords-Python%2C%20D3%2C%20PyramidFramework-blue" alt="Keywords">
+</p>
+<h2 align="center">COBRA</h2>
 
-# I Clone project
-clone "cobraproject" to local and place in the C:
-The project directory will be: C:/cobraproject
+COBRA is a front-end web client application framework, with core functionality that is geared in support of LA Team (Dava & Visual Analystics). COBRA is built on the [Pyramid framework](https://trypyramid.com/).
 
-# II Update path
-If you did not want the path C:/cobraproject, you can put to another directory
-But then you need to edit the run.bat file
-Modify the first line "set VENV=C:\cobraproject\env" to the path you place your project directory
+## About COBRA
+The Cost of Buying/Renting Algorithm (COBRA) to help home-seekers process the overwhelming amount of data points involved in buying or renting a home to make an optimal decision.
 
-# III Run Setting
-If first run: double click firstRun.bat
-From second run: double click run.bat
-After run, do not turn off the cmd windows
+## Try COBRA
+#### Live Demo
+COBRA is a web-based UI and is available for demo on [Amazon AWS](http://ec2-54-183-131-70.us-west-1.compute.amazonaws.com/).
+The demo application was deployed in Ubuntu Server 18.04 LTS using web server uWSGI+ nginx
 
-# IV Run website
-Open any browser and navigate to home page:
-http://localhost:6543/
+#### Get COBRA
+See the [Get COBRA](https://github.com/hvan6/cobraproject/blob/master/GetCobra.md) page for details.
 
-Try leaflet interaction map
-http://localhost:6543/leaflet
+## Operating System Support
+The development version of COBRA only works on Windows OS.
 
-# V Check
-If you see a LA JSON map => it worked.
+## Documentation
+* [Proposal PDF](https://github.com/hvan6/cobraproject/tree/master/assets/docs/team25proposal.pdf)
+* [Proposal Video](https://github.com/hvan6/cobraproject/tree/master/assets/docs/team25proposal.mp4)
+* [Proposal Slides](https://github.com/hvan6/cobraproject/tree/master/assets/docs/team25slides.pdf)
 
-# VI Explain:
-
-## 1/ important file:
-
-### development.ini:
-setting parameter (do not change)
-
-### cobra\\__init__.py:
-configuration: routing, resource folder path (the static folder)
-To define home page routing:
-```
-config.add_route('home', '/')
-```
-
-### cobra\\views.py:
-define a view class include all views for routing.
-A view include render (a html page), a function with data return to html page
-For example, define home view:
-```
-@view_defaults(renderer='views\\home.jinja2')
-class CobraViews:
-    def __init__(self, request):
-        self.request = request
-        self.view_name = 'CobraForm'
-
-    @view_config(route_name='home')
-    def home(self):
-        return {'name': 'Home View'}
-```
-
-### cobra\\views\\home.jinja2:
-HTML jinja2 template of home view
-This file include all html, javascript and jinja2 code to display website
+## Contribution
+COBRA is developed by the LA Team (Dava & Visual Analystics).
+* 2019 - Present
+  * Anne Benolkin
+  * [Hien Le](https://github.com/hvan6)
+  * Matthew Molinare
+  * Crystal Nguyen
+  * [Stephen Wang](http://stephenwang.me/)
