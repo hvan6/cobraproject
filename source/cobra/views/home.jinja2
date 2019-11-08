@@ -9,6 +9,35 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="{{request.static_url('cobra:static/home.js')}}"></script>
+    <script type="text/javascript" src="../lib/d3.v5.min.js"></script>
+    <script type="text/javascript" src="../lib/d3-dsv.min.js"></script>
+    <script type="text/javascript" src="../lib/d3-fetch.min.js"></script>
+    <script type="text/javascript">
+      var zipList = []
+      // load csv zip data
+      d3.dsv(",", "../static/cobraZipCodeGeo.csv", function(d) {
+        return {
+          code: d.zipcode
+        }
+      }).then(function(data) {
+        data.forEach(zip => {
+          zipList.push(zip.code)
+        })
+      })
+      // ZIP Validation
+      function validateZip() {
+        var cityZip = document.forms["userInputForm"]["livecity"].value;
+        if (!zipList.includes(cityZip)) {
+          if (parseInt(cityZip) > 90000 && parseInt(cityZip) < 93561) {
+            alert("Please enter a validated LA zip code");
+            return false;
+          } else {
+            alert("LA zip code should be in [90001, 93560]");
+            return false;
+          }
+        }
+      }
+    </script>
   </head>
 
   <body>
