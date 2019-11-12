@@ -6,7 +6,8 @@ requires = [
     'pyramid',
     'pyramid_jinja2',
     'waitress',
-    'pandas'
+    'pandas',
+    'numpy'
 ]
 
 # List of dependencies installed via `pip install -e ".[dev]"`
