@@ -97,7 +97,8 @@ class Buyer(HomeSeeker):
     def calculate_monthly_costs(self, year):
         return (
             self.calculate_mortgage_payment(year) +
-            self.utilities
+            self.utilities +
+            self.common_fees
         )
 
     def calculate_annual_costs(self, year):
