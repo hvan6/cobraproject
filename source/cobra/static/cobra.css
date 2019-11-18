@@ -59,7 +59,7 @@ h1 {
     z-index:15;
     position:fixed;
     top:35%;
-    left:40%;
+    left:50%;
     background-color:#ffffff;
     opacity:0.9;
     border:solid 2px #f4eded;
@@ -81,4 +81,33 @@ h1 {
   border-radius: 4px;
   font-size: 13px;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.linerent {
+    fill: none;
+    stroke: #ff1a1a;
+    stroke-width: 2;
+}
+
+.linebuy {
+    fill: none;
+    stroke: #1a1aff;
+    stroke-width: 2;
+}
+
+.lineLegend {
+    font-size: 11px;
+    /* font-family: Arial, Helvetica, sans-serif; */
+}
+
+.axisTitle {
+    font-size: 11px;
+    text-anchor: middle;
+    /* font-family: Arial, Helvetica, sans-serif; */
+}
+
+.g1-title {
+    font-size: 14px;
+    text-anchor: middle;
+    /* font-family: Arial, Helvetica, sans-serif; */
 }

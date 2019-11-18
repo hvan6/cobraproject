@@ -10,6 +10,7 @@ import pandas as pd
 from .models import (
     Connection, Criteria
 )
+import rvb
 
 # if using jinja2
 @view_defaults(renderer='views/home.jinja2')
@@ -26,7 +27,19 @@ class CobraViews:
 
     @view_config(route_name='home', request_method='POST',  renderer='views/cobra.jinja2')
     def home_submit(self):
-        criteria = Criteria(self.request.params['livecity'], self.request.params['minBedroom'], self.request.params['maxBedroom'], self.request.params['minBathroom'], self.request.params['maxBathroom'], self.request.params['minYearbuilt'], self.request.params['maxYearbuilt'], self.request.params['minLotSize'], self.request.params['maxLotSize'])
+        criteria = Criteria(self.request.params['livecity'], \
+                    self.request.params['minBedroom'], \
+                    self.request.params['maxBedroom'], \
+                    self.request.params['minBathroom'], \
+                    self.request.params['maxBathroom'], \
+                    self.request.params['minYearbuilt'], \
+                    self.request.params['maxYearbuilt'], \
+                    self.request.params['minLotSize'], \
+                    self.request.params['maxLotSize'],\
+                    self.request.params['initcash'],\
+                    self.request.params['yearlysalary'],\
+                    self.request.params['yearlyraise'],\
+                    self.request.params['numyears'])
         return criteria.asdict()
 
 
@@ -34,11 +47,21 @@ class CobraViews:
     @view_config(route_name='getmedianbyzip', renderer='json')
     def getmedianbyzip(self):
         # return {'result': 'mediandata'}
+        ######
         zipcode = self.request.POST.get('zipcode',None)
+        initcash = self.request.POST.get('initcash',None)
+        yearlysalary = self.request.POST.get('yearlysalary',None)
+        yearlyraise = self.request.POST.get('yearlyraise',None)
+        numyears = self.request.POST.get('numyears',None)
         queryHouseByCounty = self.request.POST.get('queryHouseByCounty',None)
+
+        # print(queryHouseByCounty)
         conn = Connection()
-        mediandata = conn.getMedianData(queryHouseByCounty)
-        return {'result': mediandata}
+        data = conn.getMedianData(queryHouseByCounty,numyears)
+
+        data = data.to_json(orient='records')
+        # print(data)
+        return {'result': data}
 
 
 

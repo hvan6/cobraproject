@@ -7,7 +7,9 @@ requires = [
     'pyramid_jinja2',
     'waitress',
     'pandas',
-    'numpy'
+    'numpy',
+    'matplotlib',
+    'seaborn'
 ]
 
 # List of dependencies installed via `pip install -e ".[dev]"`
