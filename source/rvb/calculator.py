@@ -67,10 +67,7 @@ class Buyer(HomeSeeker):
 
     @property
     def mortgage_amount(self):
-        return (
-            self.home_price -
-            self.down_payment
-        )
+        return np.maximum(0, self.home_price - self.down_payment)
 
     def calculate_mortgage_balance(self, month):
         return mortgage.balance(
