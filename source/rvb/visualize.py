@@ -3,9 +3,9 @@
 """Visualization utilities
 """
 
+import contextlib
 import matplotlib.pyplot as plt
 import numpy as np
-import seaborn as sns
 
 __all__ = ['plot_rvb_curve']
 
@@ -18,17 +18,25 @@ def y_formatter(y, loc):
         return '$%sK' % y
 
 
-def crossover(a):
-    sign = np.sign(a)
+def crossover(a, b):
+    sign = np.sign(a - b)
     idx, = np.where(sign[:-1] != sign[1:])
     idx += 1
     return idx
 
 
-def plot_rvb_curve(r, b, show_crossover=True, **fig_kwargs):
-
+@contextlib.contextmanager
+def style():
+    import seaborn as sns
     sns.set_palette('colorblind')
     sns.set_style('darkgrid')
+    try:
+        yield
+    finally:
+        sns.reset_defaults()
+
+
+def plot_rvb_curve(r, b, show_crossover=True, **fig_kwargs):
 
     years = np.arange(1, r.size + 1)
 
@@ -43,7 +51,7 @@ def plot_rvb_curve(r, b, show_crossover=True, **fig_kwargs):
     ymax = ymax + 0.2 * (ymax - ymin)
 
     if show_crossover:
-        idx = crossover(r - b)
+        idx = crossover(r, b)
         ax.vlines(years[idx], ymin, ymax, color='k', linestyle='--')
 
     ax.set_xlim(1, r.size)
@@ -53,7 +61,5 @@ def plot_rvb_curve(r, b, show_crossover=True, **fig_kwargs):
     ax.yaxis.set_major_formatter(plt.FuncFormatter(y_formatter))
     ax.set_xlabel('Year')
     ax.set_ylabel('Net Value')
-
-    sns.reset_defaults()
 
     return fig
