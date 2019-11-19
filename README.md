@@ -33,7 +33,7 @@ The [development version](http://ec2-54-183-131-70.us-west-1.compute.amazonaws.c
 COBRA is developed by the LA Team (Dava & Visual Analystics).
 * 2019 - Present
   * Anne Benolkin
-  * [Hien Le](https://github.com/hvan6)
+  * [Hien Le](https://leohien.net/)
   * Matthew Molinare
   * Crystal Nguyen
   * [Stephen Wang](http://stephenwang.me/)

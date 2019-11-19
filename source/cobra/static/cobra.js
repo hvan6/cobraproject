@@ -3,10 +3,20 @@ Number.prototype.format = function(n, x) {
     var re = '(\\d)(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$1,');
 };
+
+BUYCOLOR = '#1a1aff';
+RENTCOLOR = '#ff1a1a';
+EXCLUDECOLOR = '#1ec952';
+BUDGETCOLOR = '#41454d';
 var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+var iconBase2 = 'https://maps.google.com/mapfiles/kml/paddle/';
 
 // var lalatlon = {lat:34.052235,lon:-118.243683};
 var lalatlon = {lat:$('#criteriadata').data("lat"),lon:$('#criteriadata').data("lon")};
+
+function round2(num) {
+  return Math.round(num * 100) / 100
+}
 
 function showPageLoading() {
     $("#loader").show();
@@ -31,6 +41,10 @@ var ajaxdata = { zipcode: $('#criteriadata').data("zipcode"),
                   maxlotsize: $('#criteriadata').data("maxlotsize"),
                   lat: $('#criteriadata').data("lat"),
                   lon: $('#criteriadata').data("lon"),
+                  initbudget: $('#criteriadata').data("initbudget"),
+                  downpayment: $('#criteriadata').data("downpayment"),
+                  yearlyraise: $('#criteriadata').data("yearlyraise"),
+                  numyears: $('#criteriadata').data("numyears"),
                   queryHouseByCounty: $('#queryHouseByCounty').val()
                 }
 console.log(ajaxdata);
@@ -48,7 +62,6 @@ function getmedian() {
     success: function(res){
       hidePageLoading();
       // console.log(res.result);
-      // console.log("success");
       drawMedian(res.result);
     },
     error: function(error) {
@@ -66,12 +79,13 @@ function getmedian() {
 median_arr = [];
 mean_arr = [];
 taxmean_arr = [];
+rvb_arr = [];
 
 function drawMedian(result) {
 
   var arrayD = JSON.parse(result.toString());
-  // console.log(arrayD);
 
+  // var arrayD = ;
   arrayD.map(function(d,i){
     position = {lat: d.ziplat, lng: d.ziplon};
 
@@ -144,9 +158,47 @@ function drawMedian(result) {
       cir_popup(this, largeInfowindow);
     });
 
+    // recommendation circle
+    if (d.label == 1) {
+      fcolor = BUYCOLOR; // blue : buy
+    } else if (d.label == 2) {
+      fcolor = RENTCOLOR; // red : rent
+    } else {
+      fcolor = EXCLUDECOLOR; // exclude
+    }
+    // var shouldbuy = new google.maps.Circle({
+    var rvb = new google.maps.Marker({
+      icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 8,
+            strokeWeight: 3,
+            strokeColor: 'white',
+            fillColor: fcolor,
+            fillOpacity: 1
+      },
+      position: position,
+      radius: d.taxmean/10,
+      zip: d.zipcode,
+      median: d.median,
+      mean: d.mean,
+      taxmean: d.taxmean,
+      city: d.city,
+      label: d.label,
+      rent_net: d.rent_net,
+      buy_net: d.buy_net,
+      rent_cost: d.rent_cost,
+      buy_cost: d.buy_cost,
+      budget: d.budget
+      //map: map
+    })
+    rvb_arr.push(rvb);
+    rvb.addListener('click', function() {
+      rvb_popup(this, largeInfowindow);
+    });
+
   });
 
-  circlemedian();
+  recommendation();
 }
 
 function cir_popup(cir, infowindow) {
@@ -177,6 +229,263 @@ function cir_popup(cir, infowindow) {
   }
 }
 
+function rvb_popup(rvb, infowindow) {
+  // Check to make sure the infowindow is not already opened on this marker.
+  if (infowindow.rvb != rvb) {
+    infowindow.rvb = rvb;
+    var r = rvb.rent_net;
+    var b = rvb.buy_net;
+    var r_cost = rvb.rent_cost;
+    var b_cost = rvb.buy_cost;
+    var budget = rvb.budget;
+    var maxYear = r.length;
+
+    // Set data
+    var netvalue = []; // Net value curve
+    var cost = []; // Cost and Budget
+    for (var i=0; i<maxYear; i++) {
+      netvalue.push({ year:i+1, 'rent': round2(r[i]), 'buy': round2(b[i]) });
+      cost.push({ year:i+1, 'rent': round2(r_cost[i]), 'buy': round2(b_cost[i]), 'budget': round2(budget[i]) })
+    }
+    console.log(cost);
+
+    //code for D3 graph
+    var margin = {
+        top: 30,
+        right: 70,
+        bottom: 40,
+        left: 70
+    };
+    var width = 480 - margin.left - margin.right;
+    var height = 320 - margin.top - margin.bottom;
+
+    /////////////////////////////////////////////////////////
+    // Graph Net Value
+    /////////////////////////////////////////////////////////
+    var extendR = d3.extent(r);
+    var extendB = d3.extent(b);
+    var minY = Math.min(round2(extendR[0]),round2(extendB[0]));
+    var maxY = Math.max(round2(extendR[1]),round2(extendB[1]));
+    // if (maxYear < 4) {
+    //   maxY = maxY*1.5;
+    // } else {
+    //   maxY = maxY*1.15;
+    // }
+    var xScale = d3.scaleLinear().domain([1, maxYear]).range([0,width]);
+    var yScale = d3.scaleLinear().domain([minY, maxY]).range([height, 0]);
+    var xAxis = d3.axisBottom(xScale);
+    var yAxis = d3.axisLeft(yScale).ticks(5);
+    // create line generator
+    var lineRent = d3.line()
+        .x(function(d,i){ return xScale(d.year); })
+        .y(function(d,i){ return yScale(d.rent); })
+        .curve(d3.curveMonotoneX);
+    var lineBuy = d3.line()
+        .x(function(d,i){ return xScale(d.year); })
+        .y(function(d,i){ return yScale(d.buy); })
+        .curve(d3.curveMonotoneX);
+
+    var div1 = document.createElement("div");
+    div1.setAttribute("class", "netvalue");
+    div1.setAttribute("id", "netvalue");
+
+    var container = d3.select(div1)
+          .attr("width", 600)
+          .attr("height", 480);
+
+    var svg = container.append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    svg.append("g") // Add the X Axis
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+    svg.append("g") // Add the Y Axis
+        .attr("class", "y axis")
+        .call(yAxis);
+
+    // add graph
+    svg.append("path")
+        .datum(netvalue)
+        .attr("class", "linerent")
+        .attr("d", lineRent);
+    svg.append("path")
+        .datum(netvalue)
+        .attr("class", "linebuy")
+        .attr("d", lineBuy);
+
+    // text label for the x axis
+    svg.append("text")
+        .attr("class", "axisTitle")
+        .attr("transform", "translate(" + (width/2) + " ," + (height + margin.bottom/2 + 10) + ")")
+        .style("text-anchor", "middle")
+        .text("Occupied Year");
+
+    // text label for the y axis
+    svg.append("text")
+        .attr("class", "axisTitle")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left/2 - 18)
+        .attr("x", 0 - height/2)
+        .style("text-anchor", "middle")
+        .text("Net Value ($)");
+
+    // add title of graph
+    svg.append("text").attr("x", width/2)
+                    .attr("class", "g1-title")
+                    .attr("y", 0-margin.top/2)
+                    .style("text-anchor", "middle")
+                    .text('Rent vs Buy Net Value');
+
+    // line Data for legend
+    var lineData = [{ name: 'Rent', color : RENTCOLOR},
+                    { name: 'Buy', color: BUYCOLOR}];
+
+    // add legend group
+    var g1legend = svg.selectAll(".lineLegend").data(lineData).enter().append("g")
+        .attr("class","lineLegend")
+        .attr("transform", function(d,i){
+            return "translate(" + (width) + "," + (i*20) + ")"
+        });
+    // add square legend
+    g1legend.append("circle")
+        .attr("fill", function (d) { return d.color; })
+        .attr("cx", 10).attr("cy", 10).attr("r", 4)
+        .attr("transform", "translate(6,-4)");
+    // add text legend
+    g1legend.append("text").text(function (d) {return d.name;})
+        .attr("transform", "translate(28,10)");
+
+    /////////////////////////////////////////////////////////
+    // Graph Monthly Budget
+    /////////////////////////////////////////////////////////
+    var extendR2 = d3.extent(r_cost);
+    var extendB2 = d3.extent(b_cost);
+    var extendBG = d3.extent(budget);
+    var minY2 = Math.min(round2(extendR2[0]),round2(extendB2[0]),round2(extendBG[0]));
+    var maxY2 = Math.max(round2(extendR2[1]),round2(extendB2[1]),round2(extendBG[1]));
+    // if (maxYear < 4) {
+    //   maxY = maxY*1.5;
+    // } else {
+    //   maxY = maxY*1.15;
+    // }
+    var xScale2 = d3.scaleLinear().domain([1, maxYear]).range([0,width]);
+    var yScale2 = d3.scaleLinear().domain([minY2, maxY2]).range([height, 0]);
+    var xAxis2 = d3.axisBottom(xScale2);
+    var yAxis2 = d3.axisLeft(yScale2).ticks(5);
+    // create line generator
+    var lineRent = d3.line()
+        .x(function(d,i){ return xScale2(d.year); })
+        .y(function(d,i){ return yScale2(d.rent); })
+        .curve(d3.curveMonotoneX);
+    var lineBuy = d3.line()
+        .x(function(d,i){ return xScale2(d.year); })
+        .y(function(d,i){ return yScale2(d.buy); })
+        .curve(d3.curveMonotoneX);
+    var linebudget  = d3.line()
+        .x(function(d,i){ return xScale2(d.year); })
+        .y(function(d,i){ return yScale2(d.budget); })
+        .curve(d3.curveMonotoneX);
+
+    var div2 = document.createElement("div");
+    div2.setAttribute("class", "budget");
+    div2.setAttribute("id", "budget");
+    var container2 = d3.select(document.createElement("div"))
+          .attr("width", 600)
+          .attr("height", 480);
+
+    var svg2 = container2.append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    svg2.append("g") // Add the X Axis
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis2);
+
+    svg2.append("g") // Add the Y Axis
+        .attr("class", "y axis")
+        .call(yAxis2);
+
+    // add graph
+    svg2.append("path")
+        .datum(cost)
+        .attr("class", "linerent")
+        .attr("d", lineRent);
+    svg2.append("path")
+        .datum(cost)
+        .attr("class", "linebuy")
+        .attr("d", lineBuy);
+    svg2.append("path")
+        .datum(cost)
+        .attr("class", "linebudget")
+        .attr("d", linebudget);
+
+    // text label for the x axis
+    svg2.append("text")
+        .attr("class", "axisTitle")
+        .attr("transform", "translate(" + (width/2) + " ," + (height + margin.bottom/2 + 10) + ")")
+        .style("text-anchor", "middle")
+        .text("Occupied Year");
+
+    // text label for the y axis
+    svg2.append("text")
+        .attr("class", "axisTitle")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left/2 - 18)
+        .attr("x", 0 - height/2)
+        .style("text-anchor", "middle")
+        .text("Budget ($)");
+
+    // add title of graph
+    svg2.append("text").attr("x", width/2)
+                    .attr("class", "g1-title")
+                    .attr("y", 0-margin.top/2)
+                    .style("text-anchor", "middle")
+                    .text('Budget');
+
+    // line Data for legend
+    var lineData2 = [{ name: 'Rent', color : RENTCOLOR},
+                    { name: 'Buy', color: BUYCOLOR},
+                    { name: 'Budget', color: BUDGETCOLOR},];
+
+    // add legend group
+    var g1legend2 = svg2.selectAll(".lineLegend").data(lineData2).enter().append("g")
+        .attr("class","lineLegend")
+        .attr("transform", function(d,i){
+            return "translate(" + (width) + "," + (i*20) + ")"
+        });
+    // add square legend
+    g1legend2.append("circle")
+        .attr("fill", function (d) { return d.color; })
+        .attr("cx", 10).attr("cy", 10).attr("r", 4)
+        .attr("transform", "translate(6,-4)");
+    // add text legend
+    g1legend2.append("text").text(function (d) {return d.name;})
+        .attr("transform", "translate(28,10)");
+
+    /////////////////////////////////////////////////////////
+    // Add to pop up
+    /////////////////////////////////////////////////////////
+    var graphHtml = container.node().outerHTML;
+    var graphHtml2 = container2.node().outerHTML;
+    infowindow.setContent(graphHtml+graphHtml2);
+
+    // infowindow.setContent(content);
+    infowindow.open(map, rvb);
+    // Make sure the marker property is cleared if the infowindow is closed.
+    infowindow.addListener('closeclick', function() {
+      infowindow.rvb = null;
+    });
+  }
+}
+
 // draw median circle
 function circlemedian() {
   var bounds = new google.maps.LatLngBounds();
@@ -185,8 +494,6 @@ function circlemedian() {
     median_arr[i].setMap(map);
     bounds.extend(median_arr[i].position);
   }
-  // map.fitBounds(bounds);
-  // map.setZoom(12);
 }
 
 function circlemedian_hide() {
@@ -203,8 +510,6 @@ function circle_mean() {
     mean_arr[i].setMap(map);
     bounds.extend(mean_arr[i].position);
   }
-  // map.fitBounds(bounds);
-  // map.setZoom(12);
 }
 
 function circle_mean_hide() {
@@ -221,13 +526,26 @@ function circle_taxmean() {
     taxmean_arr[i].setMap(map);
     bounds.extend(taxmean_arr[i].position);
   }
-  // map.fitBounds(bounds);
-  // map.setZoom(12);
 }
 
 function circle_taxmean_hide() {
   for (var i = 0; i < taxmean_arr.length; i++) {
     taxmean_arr[i].setMap(null);
+  }
+}
+
+// draw recommendation
+function recommendation() {
+  var bounds = new google.maps.LatLngBounds();
+  // Extend the boundaries of the map for each marker and display the marker
+  for (var i = 0; i < rvb_arr.length; i++) {
+    rvb_arr[i].setMap(map);
+    bounds.extend(rvb_arr[i].position);
+  }
+}
+function recommendation_hide() {
+  for (var i = 0; i < rvb_arr.length; i++) {
+    rvb_arr[i].setMap(null);
   }
 }
 
@@ -252,6 +570,14 @@ $("#meanTax").change(function(){
     circle_taxmean();
   } else {
     circle_taxmean_hide();
+  }
+});
+
+$("#recommendation").change(function(){
+  if (this.checked) {
+    recommendation();
+  } else {
+    recommendation_hide();
   }
 });
 
@@ -342,9 +668,10 @@ function initMap() {
   var marker = new google.maps.Marker({
     position: {lat: lalatlon.lat, lng: lalatlon.lon},
     map: map,
-    animation: google.maps.Animation.DROP,
+    // animation: google.maps.Animation.DROP,
     title: ajaxdata.zipcode,
-    icon: iconBase + 'homegardenbusiness.png'
+    //icon: iconBase + 'homegardenbusiness.png'
+    icon: iconBase2 + 'ylw-blank.png'
   });
 
 } // end of initMap()

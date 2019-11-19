@@ -24,6 +24,10 @@
           data-maxlotsize="{{maxlotsize}}"
           data-lat="{{lat}}"
           data-lon="{{lon}}"
+          data-initbudget = "{{initbudget}}"
+          data-downpayment = "{{downpayment}}"
+          data-yearlyraise = "{{yearlyraise}}"
+          data-numyears = "{{numyears}}"
           >
   </head>
 
@@ -41,7 +45,11 @@
         <h1>MAP of <b>{{county}}</b> County</h1>
         <form>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="medianPrice" name="medianPrice" checked>
+            <input class="form-check-input" type="checkbox" value="" id="recommendation" name="recommendation" checked>
+            <label class="form-check-label" for="recommendationCheck">Rent vs Buy Recommendation</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="medianPrice" name="medianPrice">
             <label class="form-check-label" for="medianPriceCheck">Median Price</label>
           </div>
           <div class="form-check">
@@ -52,7 +60,11 @@
             <input class="form-check-input" type="checkbox" value="" id="meanTax" name="meanTax">
             <label class="form-check-label" for="meanTaxCheck">Tax Average</label>
           </div>
+
         </form>
+        <div id="tableinfo">
+
+        </div>
         <!-- <form method="POST" action="${request.current_route_url()}"> -->
         <!-- <form method="POST">
           <div class="form-group">
