@@ -4,6 +4,9 @@ Number.prototype.format = function(n, x) {
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$1,');
 };
 
+BUYCOLOR = '#1a1aff';
+RENTCOLOR = '#ff1a1a';
+EXCLUDECOLOR = '#1ec952';
 var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
 var iconBase2 = 'https://maps.google.com/mapfiles/kml/paddle/';
 
@@ -37,8 +40,8 @@ var ajaxdata = { zipcode: $('#criteriadata').data("zipcode"),
                   maxlotsize: $('#criteriadata').data("maxlotsize"),
                   lat: $('#criteriadata').data("lat"),
                   lon: $('#criteriadata').data("lon"),
-                  initcash: $('#criteriadata').data("initcash"),
-                  yearlysalary: $('#criteriadata').data("yearlysalary"),
+                  initbudget: $('#criteriadata').data("initbudget"),
+                  downpayment: $('#criteriadata').data("downpayment"),
                   yearlyraise: $('#criteriadata').data("yearlyraise"),
                   numyears: $('#criteriadata').data("numyears"),
                   queryHouseByCounty: $('#queryHouseByCounty').val()
@@ -76,7 +79,7 @@ function getmedian() {
 median_arr = [];
 mean_arr = [];
 taxmean_arr = [];
-shouldbuy_arr = [];
+rvb_arr = [];
 
 function drawMedian(result) {
 
@@ -156,15 +159,15 @@ function drawMedian(result) {
     });
 
     // recommendation circle
-
-    //typeof(d.shouldbuy)
-    if (d.shouldbuy == 1) {
-      fcolor = '#1a1aff' // blue
+    if (d.label == 1) {
+      fcolor = BUYCOLOR; // blue : buy
+    } else if (d.label == 2) {
+      fcolor = RENTCOLOR; // red : rent
     } else {
-      fcolor = '#ff1a1a' // red
+      fcolor = EXCLUDECOLOR; // exclude
     }
     // var shouldbuy = new google.maps.Circle({
-    var shouldbuy = new google.maps.Marker({
+    var rvb = new google.maps.Marker({
       icon: {
             path: google.maps.SymbolPath.CIRCLE,
             scale: 8,
@@ -180,12 +183,16 @@ function drawMedian(result) {
       mean: d.mean,
       taxmean: d.taxmean,
       city: d.city,
-      shouldbuy: d.shouldbuy,
-      rvb: d.rvb
+      label: d.label,
+      rent_net: d.rent_net,
+      buy_net: d.buy_net,
+      rent_cost: d.rent_cost,
+      buy_cost: d.buy_cost,
+      budget: d.budget
       //map: map
     })
-    shouldbuy_arr.push(shouldbuy);
-    shouldbuy.addListener('click', function() {
+    rvb_arr.push(rvb);
+    rvb.addListener('click', function() {
       rvb_popup(this, largeInfowindow);
     });
 
@@ -226,8 +233,10 @@ function rvb_popup(rvb, infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
   if (infowindow.rvb != rvb) {
     infowindow.rvb = rvb;
-    r = rvb.rvb[0];
-    b = rvb.rvb[1];
+    r = rvb.rent_net;
+    b = rvb.buy_net;
+    // r_cost = rvb.rent_cost;
+    // b_cost = rvb.buy_cost;
     maxYear = r.length;
     netvalue = []; // Net value curve
     for (var i=0; i<maxYear; i++) {
@@ -270,6 +279,9 @@ function rvb_popup(rvb, infowindow) {
         .y(function(d,i){ return yScale(d.buy); })
         .curve(d3.curveMonotoneX);
 
+    var container = d3.select(document.createElement("div"))
+          .attr("width", 600)
+          .attr("height", 480);
     var container = d3.select(document.createElement("div"))
           .attr("width", 600)
           .attr("height", 480);
@@ -323,8 +335,8 @@ function rvb_popup(rvb, infowindow) {
                     .text('Rent vs Buy Net Value');
 
     // line Data for legend
-    var lineData = [{ name: 'Rent', color : '#ff1a1a'},
-                    { name: 'Buy', color: '#1a1aff'}];
+    var lineData = [{ name: 'Rent', color : RENTCOLOR},
+                    { name: 'Buy', color: BUYCOLOR}];
 
     // add legend group
     var g1legend = svg.selectAll(".lineLegend").data(lineData).enter().append("g")
@@ -405,14 +417,14 @@ function circle_taxmean_hide() {
 function recommendation() {
   var bounds = new google.maps.LatLngBounds();
   // Extend the boundaries of the map for each marker and display the marker
-  for (var i = 0; i < shouldbuy_arr.length; i++) {
-    shouldbuy_arr[i].setMap(map);
-    bounds.extend(shouldbuy_arr[i].position);
+  for (var i = 0; i < rvb_arr.length; i++) {
+    rvb_arr[i].setMap(map);
+    bounds.extend(rvb_arr[i].position);
   }
 }
 function recommendation_hide() {
-  for (var i = 0; i < shouldbuy_arr.length; i++) {
-    shouldbuy_arr[i].setMap(null);
+  for (var i = 0; i < rvb_arr.length; i++) {
+    rvb_arr[i].setMap(null);
   }
 }
 

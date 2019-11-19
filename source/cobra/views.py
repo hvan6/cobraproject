@@ -36,8 +36,8 @@ class CobraViews:
                     self.request.params['maxYearbuilt'], \
                     self.request.params['minLotSize'], \
                     self.request.params['maxLotSize'],\
-                    self.request.params['initcash'],\
-                    self.request.params['yearlysalary'],\
+                    self.request.params['initbudget'],\
+                    self.request.params['downpayment'],\
                     self.request.params['yearlyraise'],\
                     self.request.params['numyears'])
         return criteria.asdict()
@@ -49,15 +49,15 @@ class CobraViews:
         # return {'result': 'mediandata'}
         ######
         zipcode = self.request.POST.get('zipcode',None)
-        initcash = self.request.POST.get('initcash',None)
-        yearlysalary = self.request.POST.get('yearlysalary',None)
-        yearlyraise = self.request.POST.get('yearlyraise',None)
-        numyears = self.request.POST.get('numyears',None)
+        initbudget = float(self.request.POST.get('initbudget',None))
+        downpayment = float(self.request.POST.get('downpayment',None))
+        yearlyraise = float(self.request.POST.get('yearlyraise',None))
+        numyears = int(self.request.POST.get('numyears',None))
         queryHouseByCounty = self.request.POST.get('queryHouseByCounty',None)
 
         # print(queryHouseByCounty)
         conn = Connection()
-        data = conn.getMedianData(queryHouseByCounty,numyears)
+        data = conn.run_algorithm(queryHouseByCounty,initbudget,downpayment,yearlyraise,numyears)
 
         data = data.to_json(orient='records')
         # print(data)
