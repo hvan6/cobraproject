@@ -4,18 +4,27 @@
 """
 
 import contextlib
+import math
 import matplotlib.pyplot as plt
 import numpy as np
 
 __all__ = ['plot_rvb_curve']
 
 
-def y_formatter(y, loc):
-    y = '%i' % (y.round() / 1e3)
-    if len(y) > 3:
-        return '$%.1fM' % (float(y) / 1e3)
+def price_formatter(price, loc):
+    sign = '-' if price < 0 else ''
+    price = abs(price)
+    if price == 0:
+        order = 0
     else:
-        return '$%sK' % y
+        order = int(math.log10(price))
+    if order >= 9:
+        return '${}{:g}'.format(sign, price)
+    decimals = 2 - order % 3
+    price = round(price / 10 ** (order // 3 * 3), decimals)
+    label = '${}{:.{:d}f}'.format(sign, price, decimals)
+    suffix = {2: 'M', 1: 'K', 0: ''}
+    return label + suffix[order // 3]
 
 
 def crossover(a, b):
@@ -33,7 +42,7 @@ def style():
     try:
         yield
     finally:
-        sns.reset_defaults()
+        sns.reset_orig()
 
 
 def plot_rvb_curve(r, b, show_crossover=True, **fig_kwargs):
@@ -58,7 +67,7 @@ def plot_rvb_curve(r, b, show_crossover=True, **fig_kwargs):
     ax.set_ylim(ymin, ymax)
 
     ax.legend(loc='upper right', frameon=True, framealpha=1.0, facecolor='w')
-    ax.yaxis.set_major_formatter(plt.FuncFormatter(y_formatter))
+    ax.yaxis.set_major_formatter(plt.FuncFormatter(price_formatter))
     ax.set_xlabel('Year')
     ax.set_ylabel('Net Value')
 
