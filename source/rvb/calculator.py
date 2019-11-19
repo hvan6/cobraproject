@@ -46,7 +46,7 @@ class Renter(HomeSeeker):
         )
 
     def calculate_annual_costs(self, year):
-        return 12 * self.calculate_monthly_costs(year)
+        return self.calculate_monthly_costs(year) * 12
 
     def calculate_total_costs(self, year):
         return (
@@ -61,32 +61,35 @@ class Buyer(HomeSeeker):
         super().__init__(defaults.buyer_params)
 
     @property
+    def down_payment(self):
+        return self._down_payment
+
+    @down_payment.setter
+    def down_payment(self, down_payment):
+        self._down_payment = np.minimum(self.home_price, down_payment)
+
+    @property
     def startup_costs(self):
-        return (self.down_payment +
-                self.buying_closing_cost * self.home_price)
+        return (
+            self.down_payment +
+            self.home_price * self.buying_closing_cost
+        )
 
     @property
     def mortgage_amount(self):
-        return np.maximum(0, self.home_price - self.down_payment)
+        return self.home_price - self.down_payment
 
     def calculate_mortgage_balance(self, month):
-        return mortgage.balance(
-            self.mortgage_amount,
-            self.mortgage_rate / 12,
-            12 * self.mortgage_term,
-            month
-        )
+        return mortgage.balance(self.mortgage_amount, self.mortgage_rate / 12,
+                                self.mortgage_term * 12, month)
 
     def calculate_mortgage_payment(self, year):
 
-        mortgage_payment = mortgage.payment(
-            self.mortgage_amount,
-            self.mortgage_rate / 12,
-            12 * self.mortgage_term
-        )
-        mortgage_balance = self.calculate_mortgage_balance(12 * year)
+        mortgage_payment = mortgage.payment(self.mortgage_amount,
+                                            self.mortgage_rate / 12,
+                                            self.mortgage_term * 12)
 
-        return np.minimum(mortgage_payment, mortgage_balance)
+        return np.where(year <= self.mortgage_term, mortgage_payment, 0)
 
     def calculate_home_value(self, year):
         return self.home_price * (1 + self.appreciation_rate) ** (year - 1)
@@ -100,7 +103,7 @@ class Buyer(HomeSeeker):
 
     def calculate_annual_costs(self, year):
         return (
-            12 * self.calculate_monthly_costs(year) +
+            self.calculate_monthly_costs(year) * 12 +
             self.calculate_home_value(year) * (
                 self.homeowners_insurance_rate +
                 self.property_tax_rate +
@@ -117,7 +120,7 @@ class Buyer(HomeSeeker):
     def calculate_home_equity(self, year):
 
         home_value = self.calculate_home_value(year)
-        mortgage_balance = self.calculate_mortgage_balance(12 * year)
+        mortgage_balance = self.calculate_mortgage_balance(year * 12)
 
         return (
             home_value * (1 - self.selling_closing_cost) -
