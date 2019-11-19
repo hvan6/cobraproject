@@ -7,6 +7,7 @@ Number.prototype.format = function(n, x) {
 BUYCOLOR = '#1a1aff';
 RENTCOLOR = '#ff1a1a';
 EXCLUDECOLOR = '#1ec952';
+BUDGETCOLOR = '#41454d';
 var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
 var iconBase2 = 'https://maps.google.com/mapfiles/kml/paddle/';
 
@@ -60,8 +61,7 @@ function getmedian() {
     },
     success: function(res){
       hidePageLoading();
-      console.log(res.result);
-      // console.log("success");
+      // console.log(res.result);
       drawMedian(res.result);
     },
     error: function(error) {
@@ -233,42 +233,48 @@ function rvb_popup(rvb, infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
   if (infowindow.rvb != rvb) {
     infowindow.rvb = rvb;
-    r = rvb.rent_net;
-    b = rvb.buy_net;
-    // r_cost = rvb.rent_cost;
-    // b_cost = rvb.buy_cost;
-    maxYear = r.length;
-    netvalue = []; // Net value curve
+    var r = rvb.rent_net;
+    var b = rvb.buy_net;
+    var r_cost = rvb.rent_cost;
+    var b_cost = rvb.buy_cost;
+    var budget = rvb.budget;
+    var maxYear = r.length;
+
+    // Set data
+    var netvalue = []; // Net value curve
+    var cost = []; // Cost and Budget
     for (var i=0; i<maxYear; i++) {
       netvalue.push({ year:i+1, 'rent': round2(r[i]), 'buy': round2(b[i]) });
+      cost.push({ year:i+1, 'rent': round2(r_cost[i]), 'buy': round2(b_cost[i]), 'budget': round2(budget[i]) })
     }
-    console.log(netvalue);
-
-    extendR = d3.extent(r);
-    extendB = d3.extent(b);
-    minY = Math.min(round2(extendR[0]),round2(extendR[1]));
-    maxY = Math.max(round2(extendB[0]),round2(extendB[1]));
-    if (maxYear < 4) {
-      maxY = maxY*1.5;
-    } else {
-      maxY = maxY*1.15;
-    }
+    console.log(cost);
 
     //code for D3 graph
     var margin = {
         top: 30,
-        right: 60,
+        right: 70,
         bottom: 40,
         left: 70
     };
     var width = 480 - margin.left - margin.right;
     var height = 320 - margin.top - margin.bottom;
 
+    /////////////////////////////////////////////////////////
+    // Graph Net Value
+    /////////////////////////////////////////////////////////
+    var extendR = d3.extent(r);
+    var extendB = d3.extent(b);
+    var minY = Math.min(round2(extendR[0]),round2(extendB[0]));
+    var maxY = Math.max(round2(extendR[1]),round2(extendB[1]));
+    // if (maxYear < 4) {
+    //   maxY = maxY*1.5;
+    // } else {
+    //   maxY = maxY*1.15;
+    // }
     var xScale = d3.scaleLinear().domain([1, maxYear]).range([0,width]);
-    var yScale = d3.scaleLinear().domain([0, maxY]).range([height, 0]);
+    var yScale = d3.scaleLinear().domain([minY, maxY]).range([height, 0]);
     var xAxis = d3.axisBottom(xScale);
     var yAxis = d3.axisLeft(yScale).ticks(5);
-
     // create line generator
     var lineRent = d3.line()
         .x(function(d,i){ return xScale(d.year); })
@@ -279,10 +285,11 @@ function rvb_popup(rvb, infowindow) {
         .y(function(d,i){ return yScale(d.buy); })
         .curve(d3.curveMonotoneX);
 
-    var container = d3.select(document.createElement("div"))
-          .attr("width", 600)
-          .attr("height", 480);
-    var container = d3.select(document.createElement("div"))
+    var div1 = document.createElement("div");
+    div1.setAttribute("class", "netvalue");
+    div1.setAttribute("id", "netvalue");
+
+    var container = d3.select(div1)
           .attr("width", 600)
           .attr("height", 480);
 
@@ -353,8 +360,122 @@ function rvb_popup(rvb, infowindow) {
     g1legend.append("text").text(function (d) {return d.name;})
         .attr("transform", "translate(28,10)");
 
+    /////////////////////////////////////////////////////////
+    // Graph Monthly Budget
+    /////////////////////////////////////////////////////////
+    var extendR2 = d3.extent(r_cost);
+    var extendB2 = d3.extent(b_cost);
+    var extendBG = d3.extent(budget);
+    var minY2 = Math.min(round2(extendR2[0]),round2(extendB2[0]),round2(extendBG[0]));
+    var maxY2 = Math.max(round2(extendR2[1]),round2(extendB2[1]),round2(extendBG[1]));
+    // if (maxYear < 4) {
+    //   maxY = maxY*1.5;
+    // } else {
+    //   maxY = maxY*1.15;
+    // }
+    var xScale2 = d3.scaleLinear().domain([1, maxYear]).range([0,width]);
+    var yScale2 = d3.scaleLinear().domain([minY2, maxY2]).range([height, 0]);
+    var xAxis2 = d3.axisBottom(xScale2);
+    var yAxis2 = d3.axisLeft(yScale2).ticks(5);
+    // create line generator
+    var lineRent = d3.line()
+        .x(function(d,i){ return xScale2(d.year); })
+        .y(function(d,i){ return yScale2(d.rent); })
+        .curve(d3.curveMonotoneX);
+    var lineBuy = d3.line()
+        .x(function(d,i){ return xScale2(d.year); })
+        .y(function(d,i){ return yScale2(d.buy); })
+        .curve(d3.curveMonotoneX);
+    var linebudget  = d3.line()
+        .x(function(d,i){ return xScale2(d.year); })
+        .y(function(d,i){ return yScale2(d.budget); })
+        .curve(d3.curveMonotoneX);
+
+    var div2 = document.createElement("div");
+    div2.setAttribute("class", "budget");
+    div2.setAttribute("id", "budget");
+    var container2 = d3.select(document.createElement("div"))
+          .attr("width", 600)
+          .attr("height", 480);
+
+    var svg2 = container2.append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    svg2.append("g") // Add the X Axis
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis2);
+
+    svg2.append("g") // Add the Y Axis
+        .attr("class", "y axis")
+        .call(yAxis2);
+
+    // add graph
+    svg2.append("path")
+        .datum(cost)
+        .attr("class", "linerent")
+        .attr("d", lineRent);
+    svg2.append("path")
+        .datum(cost)
+        .attr("class", "linebuy")
+        .attr("d", lineBuy);
+    svg2.append("path")
+        .datum(cost)
+        .attr("class", "linebudget")
+        .attr("d", linebudget);
+
+    // text label for the x axis
+    svg2.append("text")
+        .attr("class", "axisTitle")
+        .attr("transform", "translate(" + (width/2) + " ," + (height + margin.bottom/2 + 10) + ")")
+        .style("text-anchor", "middle")
+        .text("Occupied Year");
+
+    // text label for the y axis
+    svg2.append("text")
+        .attr("class", "axisTitle")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left/2 - 18)
+        .attr("x", 0 - height/2)
+        .style("text-anchor", "middle")
+        .text("Budget ($)");
+
+    // add title of graph
+    svg2.append("text").attr("x", width/2)
+                    .attr("class", "g1-title")
+                    .attr("y", 0-margin.top/2)
+                    .style("text-anchor", "middle")
+                    .text('Budget');
+
+    // line Data for legend
+    var lineData2 = [{ name: 'Rent', color : RENTCOLOR},
+                    { name: 'Buy', color: BUYCOLOR},
+                    { name: 'Budget', color: BUDGETCOLOR},];
+
+    // add legend group
+    var g1legend2 = svg2.selectAll(".lineLegend").data(lineData2).enter().append("g")
+        .attr("class","lineLegend")
+        .attr("transform", function(d,i){
+            return "translate(" + (width) + "," + (i*20) + ")"
+        });
+    // add square legend
+    g1legend2.append("circle")
+        .attr("fill", function (d) { return d.color; })
+        .attr("cx", 10).attr("cy", 10).attr("r", 4)
+        .attr("transform", "translate(6,-4)");
+    // add text legend
+    g1legend2.append("text").text(function (d) {return d.name;})
+        .attr("transform", "translate(28,10)");
+
+    /////////////////////////////////////////////////////////
+    // Add to pop up
+    /////////////////////////////////////////////////////////
     var graphHtml = container.node().outerHTML;
-    infowindow.setContent(graphHtml);
+    var graphHtml2 = container2.node().outerHTML;
+    infowindow.setContent(graphHtml+graphHtml2);
 
     // infowindow.setContent(content);
     infowindow.open(map, rvb);

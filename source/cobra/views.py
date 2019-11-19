@@ -54,6 +54,7 @@ class CobraViews:
         yearlyraise = float(self.request.POST.get('yearlyraise',None))
         numyears = int(self.request.POST.get('numyears',None))
         queryHouseByCounty = self.request.POST.get('queryHouseByCounty',None)
+        yearlyraise = yearlyraise/100
 
         # print(queryHouseByCounty)
         conn = Connection()
