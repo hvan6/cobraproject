@@ -17,6 +17,7 @@ These steps will get COBRA installed and running:
   `git clone https://github.com/hvan6/cobraproject.git`  
 
   <img width="300" src="./assets/imgs/gitclone.png" alt="COBRA project clone" width="480" height="360">
+  ![test image size](./assets/imgs/gitclone.png){:height="360px" width="480px"}
 
   Recommend clone to c:\cobraproject. Make sure the project has the following structure.  
 
