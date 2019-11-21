@@ -13,11 +13,14 @@ These steps will get COBRA installed and running:
 ​
 * Clone COBRA GitHub repository:
 ​
+
   `git clone https://github.com/hvan6/cobraproject.git`  
-  <img width="300" src="./assets/imgs/gitclone.png" alt="COBRA project clone">
+
+  <img width="300" src="./assets/imgs/gitclone.png" alt="COBRA project clone" width="480">
 
   Recommend clone to c:\cobraproject. Make sure the project has the following structure.  
-  <img width="300" src="./assets/imgs/structure.png" alt="COBRA project folder structure">
+
+  <img width="300" src="./assets/imgs/structure.png" alt="COBRA project folder structure" width="480">
 
 * COBRA env directory path setting:
 
