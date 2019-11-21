@@ -1,7 +1,7 @@
 <p align="center"><img width="300" src="./assets/imgs/cobralogo.png" alt="COBRA logo"></p>
 <p align="center">
   <img src="https://img.shields.io/badge/cobra%20version-1.0.0-blue" alt="COBRA version">
-  <img src="https://img.shields.io/badge/repo%20size-174MB-blue" alt="Repo size">
+  <img src="https://img.shields.io/badge/repo%20size-110MB-blue" alt="Repo size">
   <a href="http://ec2-54-183-131-70.us-west-1.compute.amazonaws.com/"><img src="https://img.shields.io/badge/demo-live-green" alt="Demo live"></a>
   <br>
   <img src="https://img.shields.io/badge/keywords-Python%2C%20D3%2C%20PyramidFramework-blue" alt="Keywords">
