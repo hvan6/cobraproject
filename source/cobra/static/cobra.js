@@ -187,7 +187,7 @@ function drawMedian(result) {
     });
     rvb.addListener('mouseover',function() {
       rvb.icon.scale = 15
-      largeInfowindow.setContent("<b>Zip:        " + this.zip + "</b><br><b>Mean: $" + round2(this.mean).format(2) + "</b>"); // set content
+      largeInfowindow.setContent("<b>Zip:" + this.zip + "</b><br><b>Mean: $" + round2(this.mean).format(2) + "</b>"); // set content
       largeInfowindow.open(map, rvb); // open at marker's location
     });
   });
