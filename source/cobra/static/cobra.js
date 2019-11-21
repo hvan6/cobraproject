@@ -82,7 +82,7 @@ rvb_arr = [];
 
 function drawMedian(result) {
   var arrayD = JSON.parse(result.toString());
-  arrayD.map(function(d,i){
+  arrayD.map(function(d,i) {
     position = {lat: d.ziplat, lng: d.ziplon};
     // median circle
     var cir = new google.maps.Circle({
@@ -175,7 +175,6 @@ function drawMedian(result) {
       mean: d.mean,
       taxmean: d.taxmean,
       city: d.city,
-      label: d.label,
       rent_net: d.rent_net,
       buy_net: d.buy_net,
       rent_cost: d.rent_cost,
@@ -651,7 +650,7 @@ function initMap() {
     position: {lat: lalatlon.lat, lng: lalatlon.lon},
     map: map,
     // animation: google.maps.Animation.DROP,
-    title: ajaxdata.zipcode,
+    title: ajaxdata.zipcode.toString(),
     icon: iconBase2 + 'ylw-blank.png'
   });
 }
