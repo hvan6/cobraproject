@@ -40,7 +40,6 @@ if __name__ == '__main__':
     df = pd.concat(chunks, ignore_index=True)
     df['parcelid'] = pd.Categorical(df['parcelid'], parcelids)
     df.sort_values('parcelid', inplace=True)
-    df = pd.concat(chunks, ignore_index=True)
     df = df.merge(meta, how='inner', on='regionidzip')
 
     # get rent/home price
