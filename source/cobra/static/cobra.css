@@ -120,3 +120,15 @@ h1 {
 .netvalue {
   float: left;
 }
+
+.dotRent {
+  fill: green;
+}
+
+.dotBuy {
+  fill: blue;
+}
+
+.dotBudget {
+  fill: orange
+}

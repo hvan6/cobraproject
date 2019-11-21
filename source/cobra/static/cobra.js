@@ -185,6 +185,11 @@ function drawMedian(result) {
     rvb.addListener('click', function() {
       rvb_popup(this, largeInfowindow);
     });
+    rvb.addListener('mouseover',function() {
+      rvb.icon.scale = 15
+      largeInfowindow.setContent("<b>Zip: " + this.zip + "</b><br><b>Mean: $" + round2(this.mean) + "</b>"); // set content
+      largeInfowindow.open(map, rvb); // open at marker's location
+    });
   });
   recommendation();
 }
@@ -242,8 +247,8 @@ function rvb_popup(rvb, infowindow) {
       bottom: 40,
       left: 70
     };
-    var width = 480 - margin.left - margin.right;
-    var height = 320 - margin.top - margin.bottom;
+    var width = 450 - margin.left - margin.right;
+    var height = 300 - margin.top - margin.bottom;
 
     // Graph Net Value
     var extendR = d3.extent(r);
@@ -269,8 +274,8 @@ function rvb_popup(rvb, infowindow) {
     div1.setAttribute("id", "netvalue");
 
     var container = d3.select(div1)
-      .attr("width", 600)
-      .attr("height", 480);
+      .attr("width", 500)
+      .attr("height", 300);
 
     var svg = container.append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -296,6 +301,22 @@ function rvb_popup(rvb, infowindow) {
       .datum(netvalue)
       .attr("class", "linebuy")
       .attr("d", lineBuy);
+
+    // add dots
+    svg.selectAll(".dotRent")
+      .data(netvalue)
+    .enter().append("circle") // Uses the enter().append() method
+      .attr("class", "dotRent") // Assign a class for styling
+      .attr("cx", function(d) { return xScale(d.year) })
+      .attr("cy", function(d) { return yScale(d.rent) })
+      .attr("r", 3)
+    svg.selectAll(".dotBuy")
+      .data(netvalue)
+    .enter().append("circle") // Uses the enter().append() method
+      .attr("class", "dotBuy") // Assign a class for styling
+      .attr("cx", function(d) { return xScale(d.year) })
+      .attr("cy", function(d) { return yScale(d.buy) })
+      .attr("r", 3)
 
     // text label for the x axis
     svg.append("text")
@@ -341,7 +362,6 @@ function rvb_popup(rvb, infowindow) {
     g1legend.append("text").text(function (d) {return d.name;})
       .attr("transform", "translate(28,10)");
 
-
     // Graph Monthly Budget
     var extendR2 = d3.extent(r_cost);
     var extendB2 = d3.extent(b_cost);
@@ -369,9 +389,9 @@ function rvb_popup(rvb, infowindow) {
     var div2 = document.createElement("div");
     div2.setAttribute("class", "budget");
     div2.setAttribute("id", "budget");
-    var container2 = d3.select(document.createElement("div"))
-      .attr("width", 600)
-      .attr("height", 480);
+    var container2 = d3.select(div2)
+      .attr("width", 500)
+      .attr("height", 300);
 
     var svg2 = container2.append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -402,6 +422,28 @@ function rvb_popup(rvb, infowindow) {
       .attr("class", "linebudget")
       .attr("d", linebudget);
 
+    // add dots
+    svg2.selectAll(".dotRent")
+      .data(cost)
+    .enter().append("circle") // Uses the enter().append() method
+      .attr("class", "dotRent") // Assign a class for styling
+      .attr("cx", function(d) { return xScale2(d.year) })
+      .attr("cy", function(d) { return yScale2(d.rent) })
+      .attr("r", 3)
+    svg2.selectAll(".dotBuy")
+      .data(cost)
+    .enter().append("circle") // Uses the enter().append() method
+      .attr("class", "dotBuy") // Assign a class for styling
+      .attr("cx", function(d) { return xScale2(d.year) })
+      .attr("cy", function(d) { return yScale2(d.buy) })
+      .attr("r", 3)
+    svg2.selectAll(".dotBudget")
+      .data(cost)
+    .enter().append("circle") // Uses the enter().append() method
+      .attr("class", "dotBudget") // Assign a class for styling
+      .attr("cx", function(d) { return xScale2(d.year) })
+      .attr("cy", function(d) { return yScale2(d.budget) })
+      .attr("r", 3)
     // text label for the x axis
     svg2.append("text")
       .attr("class", "axisTitle")
