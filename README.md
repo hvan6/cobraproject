@@ -15,6 +15,7 @@ The Cost of Buying/Renting Algorithm (COBRA) to help home-seekers process the ov
 
 ## Description
 In the search for a home, potential renters and buyers can become inundated with information found online about a multitude of real estate opportunities. It is believed that the average human has the capacity to hold approximately seven data points in short-term memory. While this exact number is disputed, it is eclipsed by the number of criteria that factor into identifying the optimal home and deciding whether to rent or to buy.
+
 Our team plans to implement the Cost of Buying/Renting Algorithm (COBRA) to help home-seekers process the overwhelming amount of data points involved in buying or renting a home to make an optimal decision.
 
 ## Try COBRA
