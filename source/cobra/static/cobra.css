@@ -121,14 +121,39 @@ h1 {
   float: left;
 }
 
-.dotRent {
-  fill: green;
+.dotBudget {
+  fill: orange
 }
 
 .dotBuy {
   fill: blue;
 }
 
-.dotBudget {
-  fill: orange
+.dotRent {
+  fill: green;
 }
+
+.legendBuy {
+  height: 15px;
+  width: 15px;
+  background-color: #1a1aff;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.legendRent {
+  height: 15px;
+  width: 15px;
+  background-color: #1ec952;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.legendExclude {
+  height: 15px;
+  width: 15px;
+  background-color: #41454d;
+  border-radius: 50%;
+  display: inline-block;
+}
+
