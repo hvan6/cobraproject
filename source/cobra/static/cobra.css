@@ -86,7 +86,7 @@ h1 {
 
 .linerent {
   fill: none;
-  stroke: #ff1a1a;
+  stroke: #1ec952;
   stroke-width: 2;
 }
 
@@ -99,7 +99,7 @@ h1 {
 .linebudget {
   stroke-dasharray: 5;
   fill: none;
-  stroke: #41454d;
+  stroke: #d66711;
   stroke-width: 2;
 }
 

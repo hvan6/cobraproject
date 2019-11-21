@@ -1,17 +1,17 @@
 var map;
 Number.prototype.format = function(n, x) {
-    var re = '(\\d)(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
-    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$1,');
+  var re = '(\\d)(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+  return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$1,');
 };
 
-BUYCOLOR = '#1a1aff';
-RENTCOLOR = '#ff1a1a';
-EXCLUDECOLOR = '#1ec952';
-BUDGETCOLOR = '#41454d';
+BUYCOLOR = '#1a1aff'; // blue
+RENTCOLOR = '#1ec952'; // green
+EXCLUDECOLOR = '#41454d'; // grey
+BUDGETCOLOR = '#d66711'; // grey
+
 var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
 var iconBase2 = 'https://maps.google.com/mapfiles/kml/paddle/';
 
-// var lalatlon = {lat:34.052235,lon:-118.243683};
 var lalatlon = {lat:$('#criteriadata').data("lat"),lon:$('#criteriadata').data("lon")};
 
 function round2(num) {
