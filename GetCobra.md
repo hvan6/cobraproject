@@ -11,22 +11,30 @@ How to install and setup code.
 These steps will get COBRA installed and running:
 
 ## Clone COBRA GitHub repository
-**Recommend** clone to `C:\cobraproject`
+**Recommend** clone COBRA to `C:\cobraproject`.
 
 $ `git clone https://github.com/hvan6/cobraproject.git`  
 
   ![gitClone](./assets/imgs/gitClone.png)
 
-Make sure the project has the following structure.  
+Make sure COBRA project has the following folder structure.  
 
   ![folderStructure](./assets/imgs/structure.png)
 
 
 ## COBRA env directory path setting
-* If you clone `cobraproject` to another directory different with `C:\cobraproject`, **UPDATE** `VENV` path to the correct path to the directory of your local COBRA in both `C:\cobraproject\source\firstRun.bat` and `C:\cobraproject\source\run.bat` files.
+* If you clone `cobraproject` to another directory different with `C:\cobraproject`, **UPDATE** `VENV` path to the correct path to the directory of your local COBRA in follwoing files:
+  ```
+  C:\cobraproject\source\firstRun.bat
+  C:\cobraproject\source\run.bat
+  ```
 
-* Make sure `set VENV=C:\cobraproject\env` is at the first line in both `C:\cobraproject\source\firstRun.bat` and `C:\cobraproject\source\run.bat` files.
-
+* Make sure `set VENV=C:\cobraproject\env` is at the first line in follwoing files:
+  ```
+  C:\cobraproject\source\firstRun.bat
+  C:\cobraproject\source\run.bat
+  ```
+  
 
 ## Unzip dataset
 We are NOT allowed to push files larger than `100 MB` to GitHub due to [conditions for large files](https://help.github.com/en/github/managing-large-files/conditions-for-large-files), so you need to unzip dataset file manually before compiling COBRA project.
