@@ -24,7 +24,7 @@ COBRA is a web-based UI and is available for demo on [Amazon AWS](http://ec2-54-
 The demo application was deployed in Ubuntu Server 18.04 LTS using web server uWSGI+ nginx
 
 #### Get COBRA to local
-See the [GET COBRA](https://github.com/hvan6/cobraproject/blob/master/GetCobra.md) page for details.
+See the [GET COBRA](./GetCobra.md) page for details.
 
 ## Operating System Support
 The [local version](http://ec2-54-183-131-70.us-west-1.compute.amazonaws.com/) of COBRA only works on Windows OS.
