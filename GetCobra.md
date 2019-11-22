@@ -55,3 +55,9 @@ to:
 * Otherwise, double click on `run.bat` to compile project, do **NOT** close command prompt window
 
 * Open a browser and navigate to: http://localhost:6543/
+
+
+## Trouble shooting
+If you have any question to compile COBRA project, please contact us for help:
+* [Hien Le](https://leohien.net/): hvan6@gatech.edu
+* [Stephen Wang](http://stephenwang.me/): StephenWang@gatech.edu
