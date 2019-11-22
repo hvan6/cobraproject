@@ -1,14 +1,11 @@
-# GET COBRA to local
-How to install and setup code.
+# Get COBRA working locally
+The following steps will let you get COBRA installed and running locally
 
 **Requirement**:
 * Windows OS (10 or server 2016)
 * Python >=3.7.5
 * Internet
 
-
-
-These steps will get COBRA installed and running:
 
 ## Clone COBRA GitHub repository
 **Recommend** clone COBRA to `C:\cobraproject`.
