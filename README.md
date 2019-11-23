@@ -34,7 +34,7 @@ More details documents about COBRA
 * [Proposal](https://github.com/hvan6/cobraproject/blob/master/assets/docs/team25proposal.pdf)
 * [Proposal Video](https://youtu.be/oQHvVnzwzvQ)
 * [Proposal Slides](https://github.com/hvan6/cobraproject/blob/master/assets/docs/team25slides.pdf)
-* [Progress Report](https://github.com/hvan6/cobraproject/blob/master/assets/docs/team25progress.pdf)
+* [Progress Report](./assets/docs/team25progress.pdf)
 
 ## Contribution
 COBRA is developed by the LA Team (Dava & Visual Analystics).
