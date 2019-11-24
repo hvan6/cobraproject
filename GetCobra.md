@@ -57,4 +57,4 @@ to:
 ## Trouble shooting
 If you have any question to compile COBRA project, please contact us for help:
 * [Hien Le](https://leohien.net/): hvan6@gatech.edu
-* [Stephen Wang](http://stephenwang.me/): StephenWang@gatech.edu
+* [Stephen Wang](http://stephenwang.me/): Stephen.Wang@gatech.edu
