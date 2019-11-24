@@ -20,13 +20,13 @@ Make sure COBRA project has the following folder structure.
 
 
 ## COBRA env directory path setting
-* If you clone `cobraproject` to another directory different with `C:\cobraproject`, **UPDATE** `VENV` path to the correct path to the directory of your local COBRA in follwoing files:
+* If you clone `cobraproject` to another directory different with `C:\cobraproject`, **UPDATE** `VENV` path to the correct path to the directory of your local COBRA in following files:
   ```
   C:\cobraproject\source\firstRun.bat
   C:\cobraproject\source\run.bat
   ```
 
-* Make sure `set VENV=C:\cobraproject\env` is at the first line in follwoing files:
+* Make sure `set VENV=C:\cobraproject\env` is at the first line in following files:
   ```
   C:\cobraproject\source\firstRun.bat
   C:\cobraproject\source\run.bat
