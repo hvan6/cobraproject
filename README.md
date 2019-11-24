@@ -31,9 +31,9 @@ The [local version](http://ec2-54-183-131-70.us-west-1.compute.amazonaws.com/) o
 
 ## Documentation
 More details documents about COBRA
-* [Proposal](https://github.com/hvan6/cobraproject/blob/master/assets/docs/team25proposal.pdf)
+* [Proposal](./assets/docs/team25proposal.pdf)
 * [Proposal Video](https://youtu.be/oQHvVnzwzvQ)
-* [Proposal Slides](https://github.com/hvan6/cobraproject/blob/master/assets/docs/team25slides.pdf)
+* [Proposal Slides](./assets/docs/team25slides.pdf)
 * [Progress Report](./assets/docs/team25progress.pdf)
 
 ## Contribution
