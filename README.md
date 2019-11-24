@@ -8,7 +8,7 @@
 </p>
 <h2 align="center">COBRA</h2>
 
-COBRA is a front-end web client application framework, with core functionality that is geared in support of LA Team (Dava & Visual Analystics). COBRA is built on the [Pyramid framework](https://trypyramid.com/).
+COBRA is a front-end web client application framework, with core functionality that is geared in support of LA Team (Data & Visual Analytics). COBRA is built on the [Pyramid framework](https://trypyramid.com/).
 
 ## About COBRA
 The Cost of Buying/Renting Algorithm (COBRA) to help home-seekers process the overwhelming amount of data points involved in buying or renting a home to make an optimal decision.
@@ -37,7 +37,7 @@ More details documents about COBRA
 * [Progress Report](./assets/docs/team25progress.pdf)
 
 ## Contribution
-COBRA is developed by the LA Team (Dava & Visual Analystics).
+COBRA is developed by the LA Team (Data & Visual Analytics).
 * 2019
   * Anne Benolkin
   * [Hien Le](https://leohien.net/)
