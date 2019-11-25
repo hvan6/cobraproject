@@ -54,7 +54,7 @@ to:
   Serving on http://GD0QXY2.mypc.com:6543
   Serving on http://GD0QXY2.mypc.com:6543
   ```
-Pleas do **NOT** close command prompt window.
+Please do **NOT** close command prompt window.
 
 * Otherwise, double click on `run.bat` to compile project, wait until you see lines similar as above, do **NOT** close command prompt window
 
