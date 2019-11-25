@@ -47,9 +47,16 @@ to:
 
 ## Start the COBRA server
 
-* If it is the first time execution, double click on `firstRun.bat` to install environment packages and compile project, do **NOT** close command prompt window
+* If it is the first time execution, double click on `firstRun.bat` to install environment packages and compile project. It will take a while to download packages and install, please wait until you see lines similar like below:
+  ```
+  Starting monitor for PID 4084.
+  Starting server in PID 15988.
+  Serving on http://GD0QXY2.mypc.com:6543
+  Serving on http://GD0QXY2.mypc.com:6543
+  ```
+Pleas do **NOT** close command prompt window.
 
-* Otherwise, double click on `run.bat` to compile project, do **NOT** close command prompt window
+* Otherwise, double click on `run.bat` to compile project, wait until you see lines similar as above, do **NOT** close command prompt window
 
 * Open a browser and navigate to: http://localhost:6543/
 
