@@ -256,7 +256,7 @@ function rvb_popup(rvb, infowindow) {
     var minY = Math.min(round2(extendR[0]),round2(extendB[0]));
     var maxY = Math.max(round2(extendR[1]),round2(extendB[1]));
     var xScale = d3.scaleLinear().domain([1, maxYear]).range([0,width]);
-    var yScale = d3.scaleLinear().domain([minY, maxY]).range([height, 0]);
+    var yScale = d3.scaleLinear().domain([0, maxY]).range([height, 0]);
     var xAxis = d3.axisBottom(xScale);
     var yAxis = d3.axisLeft(yScale).ticks(5);
     // create line generator
@@ -369,7 +369,7 @@ function rvb_popup(rvb, infowindow) {
     var minY2 = Math.min(round2(extendR2[0]),round2(extendB2[0]),round2(extendBG[0]));
     var maxY2 = Math.max(round2(extendR2[1]),round2(extendB2[1]),round2(extendBG[1]));
     var xScale2 = d3.scaleLinear().domain([1, maxYear]).range([0,width]);
-    var yScale2 = d3.scaleLinear().domain([minY2, maxY2]).range([height, 0]);
+    var yScale2 = d3.scaleLinear().domain([0, maxY2]).range([height, 0]);
     var xAxis2 = d3.axisBottom(xScale2);
     var yAxis2 = d3.axisLeft(yScale2).ticks(5);
     // create line generator
