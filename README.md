@@ -27,7 +27,7 @@ The demo application was deployed in Ubuntu Server 18.04 LTS using web server uW
 See the [GET COBRA](./GetCobra.md) page for details.
 
 ## Operating System Support
-The [local version](http://ec2-54-183-131-70.us-west-1.compute.amazonaws.com/) of COBRA only works on Windows OS.
+The local version of COBRA (clone from github) only works on Windows OS.
 
 ## Documentation
 More details documents about COBRA

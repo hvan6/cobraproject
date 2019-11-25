@@ -26,12 +26,12 @@ Make sure COBRA project has the following folder structure.
   C:\cobraproject\source\run.bat
   ```
 
-* Make sure `set VENV=C:\cobraproject\env` is at the first line in following files:
+* If project directory is `C:\cobraproject\`, make sure `set VENV=C:\cobraproject\env` is at the first line in following files:
   ```
   C:\cobraproject\source\firstRun.bat
   C:\cobraproject\source\run.bat
   ```
-  
+
 
 ## Unzip dataset
 We are NOT allowed to push files larger than `100 MB` to GitHub due to [conditions for large files](https://help.github.com/en/github/managing-large-files/conditions-for-large-files), so you need to unzip dataset file manually before compiling COBRA project.
@@ -39,7 +39,7 @@ We are NOT allowed to push files larger than `100 MB` to GitHub due to [conditio
 Unzip dataset zip file from:
 
   `C:\cobraproject\source\cobra\static\properties_2017_cleaned10-30.zip`
-  
+
 to:
 
   `C:\cobraproject\source\cobra\static\properties_2017_cleaned10-30.csv`
