@@ -66,7 +66,7 @@ If you clone `cobraproject` to another directory different with `C:\cobraproject
   C:\cobraproject\source\run.bat
   ```
 
-3. Make sure `set VENV=C:\cobraproject\env` is at the first line in following files:
+3. If project directory is `C:\cobraproject\`, make sure `set VENV=C:\cobraproject\env` is at the first line in following files:
   ```
   C:\cobraproject\source\firstRun.bat
   C:\cobraproject\source\run.bat
@@ -81,8 +81,17 @@ to:
   `C:\cobraproject\source\cobra\static\properties_2017_cleaned10-30.csv`
 
 5. Start the COBRA server
-* If it is the first time execution, double click on `firstRun.bat` to install environment packages and compile project, do **NOT** close command prompt window
-* Otherwise, double click on `run.bat` to compile project, do **NOT** close command prompt window
+* If it is the first time execution, double click on firstRun.bat to install environment packages and compile project. It will take a while to download packages and install, please wait until you see lines similar like below:
+  ```
+  Starting monitor for PID 4084.
+  Starting server in PID 15988.
+  Serving on http://GD0QXY2.mypc.com:6543
+  Serving on http://GD0QXY2.mypc.com:6543
+  ```
+Please do **NOT** close command prompt window.
+
+* Otherwise, double click on `run.bat` to compile project, wait until you see lines similar as above, do **NOT** close command prompt window
+
 * Open a browser and navigate to: http://localhost:6543/
 
 6. Trouble shooting
@@ -95,7 +104,7 @@ If you have any question to compile COBRA project, please contact us for help:
 Operating System Support
 ------------------------
 
-The local version: http://ec2-54-183-131-70.us-west-1.compute.amazonaws.com/ of COBRA only works on Windows OS.
+The local version of COBRA (clone from github) only works on Windows OS.
 
 
 
