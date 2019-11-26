@@ -102,8 +102,8 @@ function drawMedian(result) {
       city: d.city
     });
     median_arr.push(cir);
-    // Create an onclick event to open an infowindow at each marker.
-    cir.addListener('click', function() {
+    // Create an mouseover event to open an infowindow at each marker.
+    cir.addListener('mouseover', function() {
       cir_popup(this, largeInfowindow);
     });
 
@@ -124,8 +124,8 @@ function drawMedian(result) {
       city: d.city
     });
     mean_arr.push(cir_mean);
-    // Create an onclick event to open an infowindow at each marker.
-    cir_mean.addListener('click', function() {
+    // Create an mouseover event to open an infowindow at each marker.
+    cir_mean.addListener('mouseover', function() {
       cir_popup(this, largeInfowindow);
     });
 
@@ -146,8 +146,8 @@ function drawMedian(result) {
       city: d.city
     });
     taxmean_arr.push(tax_mean);
-    // Create an onclick event to open an infowindow at each marker.
-    tax_mean.addListener('click', function() {
+    // Create an mouseover event to open an infowindow at each marker.
+    tax_mean.addListener('mouseover', function() {
       cir_popup(this, largeInfowindow);
     });
 
@@ -187,7 +187,17 @@ function drawMedian(result) {
     });
     rvb.addListener('mouseover',function() {
       rvb.icon.scale = 15
-      largeInfowindow.setContent("<b>Zip:" + this.zip + "</b><br><b>Mean: $" + round2(this.mean).format(2) + "</b>"); // set content
+      var content = `
+        <div class=tip>
+        <table style="margin-top: 2.5px;">
+            <tr><td>City: </td><td>&nbsp;` + this.city + `</td></tr>
+            <tr><td>Zip Code: </td><td>&nbsp;` + this.zip + `</td></tr>
+            <tr><td>Median Price: </td><td>&nbsp;$` + round2(this.median).format(2) + `</td></tr>
+            <tr><td>Mean Price: </td><td>&nbsp;$` + round2(this.mean).format(2) + `</td></tr>
+            <tr><td>Tax Average: </td><td>&nbsp;$` + round2(this.taxmean).format(2) + `</td></tr>
+        </table>
+        </div>`;
+      largeInfowindow.setContent(content);
       largeInfowindow.open(map, rvb); // open at marker's location
     });
   });
