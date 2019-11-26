@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="{{request.static_url('cobra:static/cobra.css')}}"/>
     <script type="text/javascript" src="{{request.static_url('cobra:lib/d3.v5.min.js')}}"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <meta 
+    <meta
       id="criteriadata"
       data-zipcode="{{zipcode}}"
       data-minbed="{{minbed}}"
@@ -67,6 +67,10 @@
             <span class="legendExclude"></span>
             <span>Exclude</span>
           </div>
+        </div>
+        <hr>
+        <div class="alert alert-warning" role="alert">
+          Click dots to see additional details
         </div>
       </div>
       <div id="map"></div>
