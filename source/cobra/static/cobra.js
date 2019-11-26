@@ -86,10 +86,10 @@ function drawMedian(result) {
     position = {lat: d.ziplat, lng: d.ziplon};
     // median circle
     var cir = new google.maps.Circle({
-      strokeColor: '#FF0000',
+      strokeColor: '#4daf4a', // green
       strokeOpacity: 0.6,
       strokeWeight: 1,
-      fillColor: '#FF0000',
+      fillColor: '#4daf4a',
       fillOpacity: 0.3,
       //map: map,
       position: position,
@@ -109,10 +109,10 @@ function drawMedian(result) {
 
     // mean circle
     var cir_mean = new google.maps.Circle({
-      strokeColor: '#0000FF',
+      strokeColor: '#377eb8', // blue
       strokeOpacity: 0.6,
       strokeWeight: 1,
-      fillColor: '#0000FF',
+      fillColor: '#377eb8',
       fillOpacity: 0.35,
       position: position,
       center: position,
@@ -131,10 +131,10 @@ function drawMedian(result) {
 
     // tax amount average
     var tax_mean = new google.maps.Circle({
-      strokeColor: '#00FF00',
+      strokeColor: '#fdbf6f', // orange
       strokeOpacity: 0.8,
       strokeWeight: 2,
-      fillColor: '#00FF00',
+      fillColor: '#fdbf6f',
       fillOpacity: 0.35,
       position: position,
       center: position,
@@ -198,6 +198,7 @@ function drawMedian(result) {
         </table>
         </div>`;
       largeInfowindow.setContent(content);
+      largeInfowindow.rvb = null;
       largeInfowindow.open(map, rvb); // open at marker's location
     });
   });
