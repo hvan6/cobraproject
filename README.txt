@@ -51,7 +51,6 @@ Make sure COBRA project has the following folder structure:
             |-- lib
             |-- static
             |-- views
-        |-- cobra.egg-info
         |-- rvb
         |-- firstRun.bat
         |-- run.bat
@@ -71,7 +70,7 @@ If you clone `cobraproject` to another directory different with `C:\cobraproject
   C:\cobraproject\source\firstRun.bat
   C:\cobraproject\source\run.bat
   ```
-  
+
 4. Unzip dataset
 We are NOT allowed to push files larger than `100 MB` to GitHub due to [conditions for large files](https://help.github.com/en/github/managing-large-files/conditions-for-large-files), so you need to unzip dataset file manually before compiling COBRA project.
 
@@ -129,5 +128,3 @@ COBRA is developed by the LA Team (Data & Visual Analytics).
   * Matthew Molinare
   * Crystal Nguyen
   * Stephen Wang: http://stephenwang.me/
-
-

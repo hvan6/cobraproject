@@ -186,7 +186,7 @@ function drawMedian(result) {
       rvb_popup(this, largeInfowindow);
     });
     rvb.addListener('mouseover',function() {
-      rvb.icon.scale = 15
+      rvb.icon.scale = 8
       var content = `
         <div class=tip>
         <table style="margin-top: 2.5px;">
