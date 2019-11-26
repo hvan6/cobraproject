@@ -86,10 +86,10 @@ function drawMedian(result) {
     position = {lat: d.ziplat, lng: d.ziplon};
     // median circle
     var cir = new google.maps.Circle({
-      strokeColor: '#FF0000',
+      strokeColor: '#4daf4a', // green
       strokeOpacity: 0.6,
       strokeWeight: 1,
-      fillColor: '#FF0000',
+      fillColor: '#4daf4a',
       fillOpacity: 0.3,
       //map: map,
       position: position,
@@ -102,17 +102,17 @@ function drawMedian(result) {
       city: d.city
     });
     median_arr.push(cir);
-    // Create an onclick event to open an infowindow at each marker.
-    cir.addListener('click', function() {
+    // Create an mouseover event to open an infowindow at each marker.
+    cir.addListener('mouseover', function() {
       cir_popup(this, largeInfowindow);
     });
 
     // mean circle
     var cir_mean = new google.maps.Circle({
-      strokeColor: '#0000FF',
+      strokeColor: '#377eb8', // blue
       strokeOpacity: 0.6,
       strokeWeight: 1,
-      fillColor: '#0000FF',
+      fillColor: '#377eb8',
       fillOpacity: 0.35,
       position: position,
       center: position,
@@ -124,17 +124,17 @@ function drawMedian(result) {
       city: d.city
     });
     mean_arr.push(cir_mean);
-    // Create an onclick event to open an infowindow at each marker.
-    cir_mean.addListener('click', function() {
+    // Create an mouseover event to open an infowindow at each marker.
+    cir_mean.addListener('mouseover', function() {
       cir_popup(this, largeInfowindow);
     });
 
     // tax amount average
     var tax_mean = new google.maps.Circle({
-      strokeColor: '#00FF00',
+      strokeColor: '#fdbf6f', // orange
       strokeOpacity: 0.8,
       strokeWeight: 2,
-      fillColor: '#00FF00',
+      fillColor: '#fdbf6f',
       fillOpacity: 0.35,
       position: position,
       center: position,
@@ -146,8 +146,8 @@ function drawMedian(result) {
       city: d.city
     });
     taxmean_arr.push(tax_mean);
-    // Create an onclick event to open an infowindow at each marker.
-    tax_mean.addListener('click', function() {
+    // Create an mouseover event to open an infowindow at each marker.
+    tax_mean.addListener('mouseover', function() {
       cir_popup(this, largeInfowindow);
     });
 
@@ -187,7 +187,18 @@ function drawMedian(result) {
     });
     rvb.addListener('mouseover',function() {
       rvb.icon.scale = 15
-      largeInfowindow.setContent("<b>Zip:" + this.zip + "</b><br><b>Mean: $" + round2(this.mean).format(2) + "</b>"); // set content
+      var content = `
+        <div class=tip>
+        <table style="margin-top: 2.5px;">
+            <tr><td>City: </td><td>&nbsp;` + this.city + `</td></tr>
+            <tr><td>Zip Code: </td><td>&nbsp;` + this.zip + `</td></tr>
+            <tr><td>Median Price: </td><td>&nbsp;$` + round2(this.median).format(2) + `</td></tr>
+            <tr><td>Mean Price: </td><td>&nbsp;$` + round2(this.mean).format(2) + `</td></tr>
+            <tr><td>Tax Average: </td><td>&nbsp;$` + round2(this.taxmean).format(2) + `</td></tr>
+        </table>
+        </div>`;
+      largeInfowindow.setContent(content);
+      largeInfowindow.rvb = null;
       largeInfowindow.open(map, rvb); // open at marker's location
     });
   });
