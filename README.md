@@ -35,6 +35,8 @@ More details documents about COBRA
 * [Proposal Video](https://youtu.be/oQHvVnzwzvQ)
 * [Proposal Slides](./assets/docs/team25slides.pdf)
 * [Progress Report](./assets/docs/team25progress.pdf)
+* [Poster](./assets/docs/team25poster.pdf)
+* [Final Report](./assets/docs/team25report.pdf)
 
 ## Contribution
 COBRA is developed by the LA Team (Data & Visual Analytics).
